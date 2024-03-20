@@ -7,7 +7,7 @@ import {
   RootStackNavigationProps,
   RootStackNavigationPropsApp,
   RootStackParamList,
-} from '../types';
+} from './types';
 
 import HomePage from '../pages/home';
 import LoginPage from '../pages/login';
