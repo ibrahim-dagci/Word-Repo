@@ -10,7 +10,7 @@ import {
 } from './types';
 
 import HomePage from '../pages/home';
-import LoginPage from '../pages/login';
+import LoginPage from '../pages/splash';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const AppStack = createNativeStackNavigator<AppStackParamList>();
@@ -33,7 +33,8 @@ const AppNavigation = ({route}: RootStackNavigationPropsApp) => {
       <AppStack.Screen
         name="Home"
         component={HomePage}
-        initialParams={{message: route.params.userId}}></AppStack.Screen>
+        initialParams={{message: route.params.userId}}
+      ></AppStack.Screen>
     </AppStack.Navigator>
   );
 };
@@ -42,13 +43,16 @@ const Navigation = () => {
     <NavigationContainer>
       <RootStack.Navigator
         initialRouteName="Auth"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{headerShown: false}}
+      >
         <RootStack.Screen
           name="Auth"
-          component={Authnavigation}></RootStack.Screen>
+          component={Authnavigation}
+        ></RootStack.Screen>
         <RootStack.Screen
           name="App"
-          component={AppNavigation}></RootStack.Screen>
+          component={AppNavigation}
+        ></RootStack.Screen>
       </RootStack.Navigator>
     </NavigationContainer>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import stylesheet from './stylesheet';
-import {AppStackNavigationProps} from '../../types/navigation';
+import {AppStackNavigationProps} from '../../navigation/types';
 
 const Home = ({route}: AppStackNavigationProps) => {
   return (
