@@ -1,5 +1,5 @@
 import {ReactNode, FC} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import stylesheet from './stylesheet';
 
 interface ModalProps {
@@ -11,6 +11,7 @@ const Modal: FC<ModalProps> = ({color = 'white', children}) => {
   return (
     <View style={stylesheet.container}>
       <View style={{...stylesheet.modalView, backgroundColor: color}}>
+        <View style={stylesheet.bar} />
         {children}
       </View>
     </View>

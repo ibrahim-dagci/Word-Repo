@@ -10,7 +10,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-    padding: 25,
+    padding: 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -19,5 +19,14 @@ export default StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    alignItems: 'center',
+  },
+  bar: {
+    backgroundColor: 'gray',
+    borderRadius: 2.5,
+    position: 'absolute',
+    height: 5,
+    width: 40,
+    top: 10,
   },
 });

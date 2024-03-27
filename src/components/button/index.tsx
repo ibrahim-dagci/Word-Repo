@@ -6,19 +6,43 @@ import {
   ViewStyle,
 } from 'react-native';
 import stylesheet from './stylesheet';
-import {FC} from 'react';
+import {FC, useState} from 'react';
 
 interface ButtonProps {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  title: string;
   onPress?: () => void;
+  variant: 'ghost' | 'default';
+  title: string;
 }
 
-const Button: FC<ButtonProps> = ({title, onPress, style, textStyle}) => {
+const Button: FC<ButtonProps> = ({
+  title,
+  onPress,
+  style,
+  textStyle,
+  variant = 'default',
+}) => {
   return (
-    <TouchableOpacity style={[style, stylesheet.container]} onPress={onPress}>
-      <Text style={[stylesheet.title, textStyle]}>{title}</Text>
+    <TouchableOpacity
+      style={[
+        variant === 'default'
+          ? stylesheet.containerDefault
+          : stylesheet.containerGhost,
+        style,
+      ]}
+      onPress={onPress}
+    >
+      <Text
+        style={[
+          variant === 'default'
+            ? stylesheet.titleDefault
+            : stylesheet.titleGhost,
+          textStyle,
+        ]}
+      >
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };

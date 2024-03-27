@@ -12,6 +12,7 @@ import {pageType} from '../auth/types';
 
 const Login = ({navigation}: RootStackNavigationProps) => {
   const {theme} = useContext(AppContext);
+  const {colors} = theme;
   const {height} = Dimensions.get('window');
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,7 +21,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
   const translateAnimY = useRef(new Animated.Value(0)).current;
   const fadeOutAnim = useRef(new Animated.Value(0)).current;
 
-  const translateY = (value: number) => {
+  const translateY = () => {
     Animated.timing(translateAnimY, {
       toValue: -(height * 4) / 7 / 2,
       duration: 300,
@@ -43,7 +44,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
   };
   const modalVisibleOnPress = (pageType: pageType) => {
     setAuthType(pageType);
-    translateY((height * 7) / 7 / 2);
+    translateY();
     setModalVisible(true);
   };
   const modalHideOnPress = () => {
@@ -51,7 +52,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
   };
 
   const noUser = () => {
-    translateY(100);
+    translateY();
     fadeOut();
   };
 
@@ -83,6 +84,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
             width: '100%',
             padding: 10,
             bottom: 70,
+            gap: 15,
           }}
         >
           <Button
@@ -90,16 +92,18 @@ const Login = ({navigation}: RootStackNavigationProps) => {
             onPress={() => {
               modalVisibleOnPress('signin');
             }}
-            style={{backgroundColor: theme.colors.defaultButton}}
-            textStyle={{color: theme.colors.defaultButtonText}}
+            style={{backgroundColor: colors.defaultButton}}
+            textStyle={{color: colors.defaultButtonText}}
+            variant="default"
           />
           <Button
             title="Sign Up"
             onPress={() => {
               modalVisibleOnPress('signup');
             }}
-            style={{backgroundColor: theme.colors.defaultButton}}
-            textStyle={{color: theme.colors.defaultButtonText}}
+            style={{backgroundColor: colors.defaultButton}}
+            textStyle={{color: colors.defaultButtonText}}
+            variant="default"
           />
         </Animated.View>
         <Modal

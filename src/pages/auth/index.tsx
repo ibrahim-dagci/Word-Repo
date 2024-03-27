@@ -1,12 +1,13 @@
 import {useContext, useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import stylesheet from './stylesheet';
 import {pageType} from './types';
-import {Button} from '../../components';
+import {Button, Input} from '../../components';
 import {AppContext} from '../../context';
 
 const Auth = ({processType}: {processType: pageType}) => {
   const {theme} = useContext(AppContext);
+  const {colors} = theme;
 
   const [pageType, setPageType] = useState<pageType>(processType);
   const [signin, setSignin] = useState<boolean>(false);
@@ -35,30 +36,64 @@ const Auth = ({processType}: {processType: pageType}) => {
   return (
     <View style={stylesheet.container}>
       {signin && (
-        <View>
-          <Button
-            title="Sign In"
-            style={{backgroundColor: theme.colors.defaultButton}}
-            textStyle={{color: theme.colors.defaultButtonText}}
-          />
+        <View style={stylesheet.container}>
+          <View style={stylesheet.sigin}>
+            <Input placeholder="E mail" />
+            <Input placeholder="Password" />
+            <Button
+              variant="ghost"
+              title="I forgot password !"
+              onPress={() => setPageType('forgot')}
+              style={{position: 'absolute', bottom: 0, right: 0}}
+            />
+          </View>
+          <View>
+            <Button title="Sign In" variant="default" />
+          </View>
+          <View>
+            <Button
+              title="Sign Up"
+              variant="ghost"
+              onPress={() => setPageType('signup')}
+            />
+          </View>
         </View>
       )}
       {sigup && (
-        <View>
-          <Button
-            title="Sign Up"
-            style={{backgroundColor: theme.colors.defaultButton}}
-            textStyle={{color: theme.colors.defaultButtonText}}
-          />
+        <View style={stylesheet.container}>
+          <View>
+            <Input placeholder="E mail" />
+            <Input placeholder="Password" />
+            <Input placeholder="Password (again)" />
+            <Input placeholder="Primary Language" />
+          </View>
+          <View>
+            <Button title="Sign Up" variant="default" />
+          </View>
+          <View>
+            <Button
+              title="Sign In"
+              variant="ghost"
+              onPress={() => setPageType('signin')}
+            />
+          </View>
         </View>
       )}
       {forgot && (
-        <View>
-          <Button
-            title="Send Mail"
-            style={{backgroundColor: theme.colors.defaultButton}}
-            textStyle={{color: theme.colors.defaultButtonText}}
-          />
+        <View style={stylesheet.container}>
+          <View>
+            <Input placeholder="E mail" />
+          </View>
+          <View>
+            <Button title="Send Email" variant="default" />
+          </View>
+          <View>
+            <Button
+              title="Sign In"
+              variant="ghost"
+              onPress={() => setPageType('signin')}
+            />
+          </View>
         </View>
       )}
     </View>
