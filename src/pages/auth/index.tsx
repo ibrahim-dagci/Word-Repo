@@ -4,10 +4,22 @@ import stylesheet from './stylesheet';
 import {pageType} from './types';
 import {Button, Input} from '../../components';
 import {AppContext} from '../../context';
+import {RootStackNavigationProps} from '../../navigation/types';
+import {ModalContext} from '../../components/modal/context';
 
-const Auth = ({processType}: {processType: pageType}) => {
+const Auth = ({
+  processType,
+  navigation,
+}: {
+  processType: pageType;
+  navigation?: RootStackNavigationProps['navigation'];
+}) => {
   const {theme} = useContext(AppContext);
   const {colors} = theme;
+
+  // Örneğin, ModalContext'ten dönen bir değer nesne şeklindeyse
+  const {modalVisibilityControl} = useContext(ModalContext);
+  const [modalVisible, setModalVisible] = modalVisibilityControl || [];
 
   const [pageType, setPageType] = useState<pageType>(processType);
   const [signin, setSignin] = useState<boolean>(false);
@@ -38,8 +50,8 @@ const Auth = ({processType}: {processType: pageType}) => {
       {signin && (
         <View style={stylesheet.container}>
           <View style={stylesheet.sigin}>
-            <Input placeholder="E mail" />
-            <Input placeholder="Password" />
+            <Input placeholder="E mail" keyboard="email-address" />
+            <Input placeholder="Password" isSecure={true} />
             <Button
               variant="ghost"
               title="I forgot password !"
@@ -48,7 +60,14 @@ const Auth = ({processType}: {processType: pageType}) => {
             />
           </View>
           <View>
-            <Button title="Sign In" variant="default" />
+            <Button
+              title="Sign In"
+              variant="default"
+              onPress={() => {
+                navigation?.navigate('App', {userId: '123'});
+                setModalVisible?.(false);
+              }}
+            />
           </View>
           <View>
             <Button
@@ -61,11 +80,10 @@ const Auth = ({processType}: {processType: pageType}) => {
       )}
       {sigup && (
         <View style={stylesheet.container}>
-          <View>
-            <Input placeholder="E mail" />
-            <Input placeholder="Password" />
-            <Input placeholder="Password (again)" />
-            <Input placeholder="Primary Language" />
+          <View style={stylesheet.signup}>
+            <Input placeholder="E mail" keyboard="email-address" />
+            <Input placeholder="Password" keyboard="visible-password" />
+            <Input placeholder="Password (again)" keyboard="visible-password" />
           </View>
           <View>
             <Button title="Sign Up" variant="default" />
@@ -81,8 +99,8 @@ const Auth = ({processType}: {processType: pageType}) => {
       )}
       {forgot && (
         <View style={stylesheet.container}>
-          <View>
-            <Input placeholder="E mail" />
+          <View style={stylesheet.forgot}>
+            <Input placeholder="E mail" keyboard="email-address" />
           </View>
           <View>
             <Button title="Send Email" variant="default" />

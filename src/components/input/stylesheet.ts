@@ -11,5 +11,6 @@ export default StyleSheet.create({
   },
   input: {
     flex: 1,
+    fontWeight: 'bold',
   },
 });

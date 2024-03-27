@@ -1,6 +1,7 @@
-import {ReactNode, FC, useState, useEffect} from 'react';
+import {ReactNode, FC} from 'react';
 import {Modal, View, Pressable} from 'react-native';
 import stylesheet from './stylesheet';
+import {ModalPrvider} from './context';
 
 interface ModalProps {
   color?: string;
@@ -32,7 +33,9 @@ const CustomModal: FC<ModalProps> = ({
       <View style={stylesheet.container}>
         <View style={{...stylesheet.modalView, backgroundColor: color}}>
           <View style={stylesheet.bar} />
-          {children}
+          <ModalPrvider visibilityControl={visibilityControl}>
+            {children}
+          </ModalPrvider>
         </View>
       </View>
     </Modal>

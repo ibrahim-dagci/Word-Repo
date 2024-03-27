@@ -44,7 +44,6 @@ const Login = ({navigation}: RootStackNavigationProps) => {
   };
   const modalVisibleOnPress = (pageType: pageType) => {
     setAuthType(pageType);
-    setModalVisible(false);
     setModalVisible(true);
   };
   const modalHideOnPress = () => {
@@ -110,7 +109,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
           visibilityControl={[modalVisible, setModalVisible]}
           color={colors.modal}
         >
-          <Auth processType={authType} />
+          <Auth processType={authType} navigation={navigation} />
         </ModalComponent>
       </SafeAreaView>
     </LinearGradient>

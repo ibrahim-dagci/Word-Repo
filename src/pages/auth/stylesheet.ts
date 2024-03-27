@@ -8,8 +8,14 @@ export default StyleSheet.create({
   },
   sigin: {
     paddingTop: 10,
-    paddingBottom: 40,
+    paddingBottom: 30,
   },
-  signup: {},
-  forgot: {},
+  signup: {
+    paddingTop: 10,
+    paddingBottom: 50,
+  },
+  forgot: {
+    paddingTop: 10,
+    paddingBottom: 170,
+  },
 });
