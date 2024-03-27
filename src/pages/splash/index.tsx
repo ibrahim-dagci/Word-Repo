@@ -44,7 +44,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
   };
   const modalVisibleOnPress = (pageType: pageType) => {
     setAuthType(pageType);
-    translateY();
+    setModalVisible(false);
     setModalVisible(true);
   };
   const modalHideOnPress = () => {
@@ -106,22 +106,12 @@ const Login = ({navigation}: RootStackNavigationProps) => {
             variant="default"
           />
         </Animated.View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
+        <ModalComponent
+          visibilityControl={[modalVisible, setModalVisible]}
+          color={colors.modal}
         >
-          <Pressable
-            style={stylesheet.modalContainer}
-            onPress={modalHideOnPress}
-          />
-          <ModalComponent color={theme.colors.modal}>
-            <Auth processType={authType} />
-          </ModalComponent>
-        </Modal>
+          <Auth processType={authType} />
+        </ModalComponent>
       </SafeAreaView>
     </LinearGradient>
   );

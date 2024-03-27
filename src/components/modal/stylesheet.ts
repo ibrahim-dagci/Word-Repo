@@ -29,4 +29,7 @@ export default StyleSheet.create({
     width: 40,
     top: 10,
   },
+  modalContainer: {
+    flex: 0.6,
+  },
 });

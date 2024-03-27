@@ -1,21 +1,42 @@
-import {ReactNode, FC} from 'react';
-import {Text, View} from 'react-native';
+import {ReactNode, FC, useState, useEffect} from 'react';
+import {Modal, View, Pressable} from 'react-native';
 import stylesheet from './stylesheet';
 
 interface ModalProps {
   color?: string;
   children?: ReactNode;
+  animationType?: 'slide' | 'none' | 'fade';
+  visibilityControl: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 }
 
-const Modal: FC<ModalProps> = ({color = 'white', children}) => {
+const CustomModal: FC<ModalProps> = ({
+  color = 'white',
+  children,
+  animationType = 'slide',
+  visibilityControl,
+}) => {
+  const [modalVisible, setModalVisible] = visibilityControl;
+  const modalHideOnPress = () => {
+    setModalVisible(false);
+  };
   return (
-    <View style={stylesheet.container}>
-      <View style={{...stylesheet.modalView, backgroundColor: color}}>
-        <View style={stylesheet.bar} />
-        {children}
+    <Modal
+      animationType={animationType}
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <Pressable style={stylesheet.modalContainer} onPress={modalHideOnPress} />
+      <View style={stylesheet.container}>
+        <View style={{...stylesheet.modalView, backgroundColor: color}}>
+          <View style={stylesheet.bar} />
+          {children}
+        </View>
       </View>
-    </View>
+    </Modal>
   );
 };
 
-export default Modal;
+export default CustomModal;
