@@ -17,7 +17,6 @@ const Auth = ({
   const {theme} = useContext(AppContext);
   const {colors} = theme;
 
-  // Örneğin, ModalContext'ten dönen bir değer nesne şeklindeyse
   const {modalVisibilityControl} = useContext(ModalContext);
   const [modalVisible, setModalVisible] = modalVisibilityControl || [];
 
