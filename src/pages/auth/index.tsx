@@ -1,11 +1,12 @@
 import {useContext, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {Keyboard, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {pageType} from './types';
 import {Button, Input} from '../../components';
 import {AppContext} from '../../context';
 import {RootStackNavigationProps} from '../../navigation/types';
 import {ModalContext} from '../../components/modal/context';
+import Websercice from '../../service/Webservice';
 
 const Auth = ({
   processType,
@@ -24,6 +25,8 @@ const Auth = ({
   const [signin, setSignin] = useState<boolean>(false);
   const [forgot, setForgot] = useState<boolean>(false);
   const [sigup, setSignup] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   useEffect(() => {
     switch (pageType) {
       case 'signin':
@@ -49,8 +52,22 @@ const Auth = ({
       {signin && (
         <View style={stylesheet.container}>
           <View style={stylesheet.sigin}>
-            <Input placeholder="E mail" keyboard="email-address" />
-            <Input placeholder="Password" isSecure={true} />
+            <Input
+              onChangeText={value => setUserName(value)}
+              keyboard="email-address"
+              placeholder="E mail"
+              value={userName}
+              returnKeyType="done"
+              onSubmitEnding={() => Keyboard.dismiss()}
+            />
+            <Input
+              placeholder="Password"
+              isSecure={true}
+              onChangeText={value => setPassword(value)}
+              value={password}
+              returnKeyType="done"
+              onSubmitEnding={() => Keyboard.dismiss()}
+            />
             <Button
               variant="ghost"
               title="I forgot password !"
@@ -62,9 +79,16 @@ const Auth = ({
             <Button
               title="Sign In"
               variant="default"
-              onPress={() => {
-                navigation?.navigate('App', {userId: '123'});
-                setModalVisible?.(false);
+              onPress={async () => {
+                new Websercice(userName, password)
+                  .signIn()
+                  .then((currenUser: any) => {
+                    navigation?.navigate('App', {userId: currenUser.user._id});
+                    setModalVisible?.(false);
+                  })
+                  .catch((e: Error) => {
+                    console.log('err: ' + e.message);
+                  });
               }}
             />
           </View>
