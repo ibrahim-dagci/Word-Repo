@@ -3,6 +3,9 @@ export type Colors = {
   modal: string;
   defaultButton: string;
   defaultButtonText: string;
+  header: string;
+  headrTint: string;
+  headerTitle: string;
 };
 
 export type Variant = {

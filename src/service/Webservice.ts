@@ -1,5 +1,5 @@
 import {err} from 'react-native-svg';
-import {SERVRE_ADRES} from '../constants';
+import {SERVRER_ADRESS} from '../constants';
 
 export default class Websercice {
   private baseUrl: string;
@@ -7,7 +7,7 @@ export default class Websercice {
   private password: string;
 
   constructor(userName: string, password: string) {
-    this.baseUrl = SERVRE_ADRES;
+    this.baseUrl = SERVRER_ADRESS;
     this.userName = userName;
     this.password = password;
   }

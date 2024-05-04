@@ -9,6 +9,7 @@ export type AuthStackParamList = {
 };
 export type AppStackParamList = {
   Home: {message: string};
+  Profile: undefined;
 };
 export type RootStackNavigationProps =
   NativeStackScreenProps<RootStackParamList>;
@@ -26,7 +27,11 @@ export type AuthStackNavigationProps = NativeStackScreenProps<
   'Login'
 >;
 
-export type AppStackNavigationProps = NativeStackScreenProps<
+export type AppStackNavigationPropsHome = NativeStackScreenProps<
   AppStackParamList,
   'Home'
+>;
+export type AppStackNavigationPropsProfile = NativeStackScreenProps<
+  AppStackParamList,
+  'Profile'
 >;

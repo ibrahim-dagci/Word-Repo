@@ -1,22 +1,21 @@
 import React, {useContext, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import stylesheet from './stylesheet';
-import {AppStackNavigationPropsHome} from '../../navigation/types';
+import {AppStackNavigationPropsProfile} from '../../navigation/types';
 import {Button} from '../../components';
 import {AppContext} from '../../context';
-import {ProfileIcon} from '../../assets/svg';
+import {EarthIcon} from '../../assets/svg';
 
-const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
+const Profile = ({route, navigation}: AppStackNavigationPropsProfile) => {
   const {values} = useContext(AppContext);
   const {theme} = values;
-
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
+      headerLeft: () => (
         <Button
           variant="custom"
-          onPress={() => navigation.navigate('Profile')}
-          customContent={<ProfileIcon size={25} />}
+          customContent={<EarthIcon size={25} />}
+          onPress={() => navigation.goBack()}
         />
       ),
     });
@@ -24,8 +23,8 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
 
   return (
     <View style={stylesheet.container}>
-      <Text>UserId:{route.params.message}</Text>
+      <Text>Profile</Text>
     </View>
   );
 };
-export default Home;
+export default Profile;

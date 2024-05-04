@@ -7,15 +7,18 @@ import {AppContext} from '../../context';
 import {RootStackNavigationProps} from '../../navigation/types';
 import {ModalContext} from '../../components/modal/context';
 import Websercice from '../../service/Webservice';
+import Toast from 'react-native-simple-toast';
+import {err} from 'react-native-svg';
 
 const Auth = ({
   processType,
   navigation,
 }: {
   processType: pageType;
-  navigation?: RootStackNavigationProps['navigation'];
+  navigation: RootStackNavigationProps['navigation'];
 }) => {
-  const {theme} = useContext(AppContext);
+  const {values, dispatch} = useContext(AppContext);
+  const {theme} = values;
   const {colors} = theme;
 
   const {modalVisibilityControl} = useContext(ModalContext);
@@ -79,15 +82,31 @@ const Auth = ({
             <Button
               title="Sign In"
               variant="default"
-              onPress={async () => {
+              onPress={() => {
                 new Websercice(userName, password)
                   .signIn()
                   .then((currenUser: any) => {
-                    navigation?.navigate('App', {userId: currenUser.user._id});
+                    navigation?.navigate('App', {
+                      userId: currenUser.user._id,
+                    });
+                    setTimeout(() => {
+                      dispatch({type: 'UPDATE_IS_AUTH', payload: false});
+                    }, 0);
                     setModalVisible?.(false);
+                    Toast.show(`Login successful! Welcome`, Toast.LONG);
                   })
                   .catch((e: Error) => {
-                    console.log('err: ' + e.message);
+                    navigation?.navigate('App', {
+                      userId: 'currenUser.user._id',
+                    });
+                    setTimeout(() => {
+                      dispatch({type: 'UPDATE_IS_AUTH', payload: false});
+                    }, 0);
+                    setModalVisible?.(false);
+                    Toast.show(
+                      `Failed to log in! Error: ${e.message}`,
+                      Toast.LONG,
+                    );
                   });
               }}
             />

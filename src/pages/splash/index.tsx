@@ -1,6 +1,6 @@
 import stylesheet from './stylesheet';
 import {useContext, useEffect, useRef, useState} from 'react';
-import {AppIcon} from '../../assets/svg';
+import {Logo} from '../../assets/svg';
 import {AppContext} from '../../context';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -11,7 +11,8 @@ import {Auth} from '../index';
 import {pageType} from '../auth/types';
 
 const Login = ({navigation}: RootStackNavigationProps) => {
-  const {theme} = useContext(AppContext);
+  const {values} = useContext(AppContext);
+  const {theme} = values;
   const {colors} = theme;
   const {height} = Dimensions.get('window');
 
@@ -74,7 +75,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
             transform: [{translateY: translateAnimY}],
           }}
         >
-          <AppIcon size={(height * 3) / 7} />
+          <Logo size={(height * 3) / 7} />
         </Animated.View>
         <Animated.View
           style={{

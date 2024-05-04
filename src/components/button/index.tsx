@@ -3,46 +3,41 @@ import {
   Text,
   TextStyle,
   TouchableOpacity,
+  View,
   ViewStyle,
 } from 'react-native';
 import stylesheet from './stylesheet';
-import {FC, useState} from 'react';
+import {FC} from 'react';
 
 interface ButtonProps {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  onPress?: () => void;
-  variant: 'ghost' | 'default';
-  title: string;
+  onPress: () => void;
+  variant?: 'ghost' | 'default' | 'custom';
+  title?: string;
+  customContent?: React.ReactNode;
 }
 
 const Button: FC<ButtonProps> = ({
-  title,
-  onPress,
+  title = 'title',
   style,
+  onPress,
+  customContent = <Text>customContent</Text>,
   textStyle,
   variant = 'default',
 }) => {
   return (
-    <TouchableOpacity
-      style={[
-        variant === 'default'
-          ? stylesheet.containerDefault
-          : stylesheet.containerGhost,
-        style,
-      ]}
-      onPress={onPress}
-    >
-      <Text
-        style={[
-          variant === 'default'
-            ? stylesheet.titleDefault
-            : stylesheet.titleGhost,
-          textStyle,
-        ]}
-      >
-        {title}
-      </Text>
+    <TouchableOpacity style={[stylesheet[variant], style]} onPress={onPress}>
+      {variant === 'default' && (
+        <Text style={[stylesheet.titleDefault, textStyle]}>{title}</Text>
+      )}
+      {variant === 'ghost' && (
+        <Text style={[stylesheet.titleGhost, textStyle]}>{title}</Text>
+      )}
+      {variant === 'custom' && <View>{customContent}</View>}
+      {variant === undefined && (
+        <Text style={[stylesheet.titleDefault, textStyle]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };
