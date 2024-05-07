@@ -4,11 +4,10 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    justifyContent: 'space-between',
   },
-  sigin: {
+  signin: {
     paddingTop: 10,
-    paddingBottom: 30,
+    paddingBottom: 50,
   },
   signup: {
     paddingTop: 10,
@@ -16,6 +15,10 @@ export default StyleSheet.create({
   },
   forgot: {
     paddingTop: 10,
-    paddingBottom: 170,
+    paddingBottom: 50,
+  },
+  mainButtonContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
 });

@@ -9,6 +9,7 @@ import {ModalContext} from '../../components/modal/context';
 import Websercice from '../../service/Webservice';
 import Toast from 'react-native-simple-toast';
 import {err} from 'react-native-svg';
+import storage from '../../storage';
 
 const Auth = ({
   processType,
@@ -30,6 +31,9 @@ const Auth = ({
   const [sigup, setSignup] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [passwordAgain, setPasswordAgain] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [primaryLanguage, setPrimaryLanguage] = useState<string>('');
   useEffect(() => {
     switch (pageType) {
       case 'signin':
@@ -50,15 +54,34 @@ const Auth = ({
     }
   }, [pageType]);
 
+  const signIn = (currenUser: any) => {
+    navigation?.navigate('App', {
+      userId: currenUser.user._id,
+    });
+    setTimeout(() => {
+      dispatch({type: 'UPDATE_IS_AUTH', payload: false});
+    }, 0);
+    setModalVisible?.(false);
+    Toast.show(`Logi n successful! Welcome`, Toast.LONG);
+    storage.set('user', JSON.stringify(currenUser));
+  };
+
+  const signUp = () => {
+    setPageType('signin');
+    Toast.show('Sign up succesfull! Please Sign In', Toast.LONG);
+    setUserName('');
+    setPassword('');
+  };
+
   return (
     <View style={stylesheet.container}>
       {signin && (
         <View style={stylesheet.container}>
-          <View style={stylesheet.sigin}>
+          <View style={stylesheet.signin}>
             <Input
               onChangeText={value => setUserName(value)}
               keyboard="email-address"
-              placeholder="E mail"
+              placeholder="User Name"
               value={userName}
               returnKeyType="done"
               onSubmitEnding={() => Keyboard.dismiss()}
@@ -78,31 +101,17 @@ const Auth = ({
               style={{position: 'absolute', bottom: 0, right: 0}}
             />
           </View>
-          <View>
+          <View style={stylesheet.mainButtonContainer}>
             <Button
               title="Sign In"
               variant="default"
               onPress={() => {
-                new Websercice(userName, password)
-                  .signIn()
+                new Websercice()
+                  .signIn(userName, password)
                   .then((currenUser: any) => {
-                    navigation?.navigate('App', {
-                      userId: currenUser.user._id,
-                    });
-                    setTimeout(() => {
-                      dispatch({type: 'UPDATE_IS_AUTH', payload: false});
-                    }, 0);
-                    setModalVisible?.(false);
-                    Toast.show(`Login successful! Welcome`, Toast.LONG);
+                    signIn(currenUser);
                   })
                   .catch((e: Error) => {
-                    navigation?.navigate('App', {
-                      userId: 'currenUser.user._id',
-                    });
-                    setTimeout(() => {
-                      dispatch({type: 'UPDATE_IS_AUTH', payload: false});
-                    }, 0);
-                    setModalVisible?.(false);
                     Toast.show(
                       `Failed to log in! Error: ${e.message}`,
                       Toast.LONG,
@@ -110,12 +119,14 @@ const Auth = ({
                   });
               }}
             />
-          </View>
-          <View>
             <Button
               title="Sign Up"
               variant="ghost"
-              onPress={() => setPageType('signup')}
+              onPress={() => {
+                setUserName('');
+                setPassword('');
+                setPageType('signup');
+              }}
             />
           </View>
         </View>
@@ -123,18 +134,73 @@ const Auth = ({
       {sigup && (
         <View style={stylesheet.container}>
           <View style={stylesheet.signup}>
-            <Input placeholder="E mail" keyboard="email-address" />
-            <Input placeholder="Password" keyboard="visible-password" />
-            <Input placeholder="Password (again)" keyboard="visible-password" />
+            <Input
+              placeholder="E mail"
+              keyboard="email-address"
+              onChangeText={value => setEmail(value)}
+              value={email}
+              returnKeyType="done"
+              onSubmitEnding={() => Keyboard.dismiss()}
+            />
+            <Input
+              placeholder="User Name"
+              keyboard="email-address"
+              onChangeText={value => setUserName(value)}
+              value={userName}
+              returnKeyType="done"
+              onSubmitEnding={() => Keyboard.dismiss()}
+            />
+            <Input
+              placeholder="Password"
+              keyboard="visible-password"
+              onChangeText={value => setPassword(value)}
+              value={password}
+              returnKeyType="done"
+              onSubmitEnding={() => Keyboard.dismiss()}
+            />
+            <Input
+              placeholder="Password (again)"
+              keyboard="visible-password"
+              onChangeText={value => setPasswordAgain(value)}
+              value={passwordAgain}
+              returnKeyType="done"
+              onSubmitEnding={() => Keyboard.dismiss()}
+            />
+            <Input
+              placeholder="Primary Language"
+              keyboard="email-address"
+              onChangeText={value => setPrimaryLanguage(value)}
+              value={primaryLanguage}
+              returnKeyType="done"
+              onSubmitEnding={() => Keyboard.dismiss()}
+            />
           </View>
-          <View>
-            <Button title="Sign Up" variant="default" />
-          </View>
-          <View>
+          <View style={stylesheet.mainButtonContainer}>
+            <Button
+              title="Sign Up"
+              variant="default"
+              onPress={() => {
+                new Websercice()
+                  .signUp(userName, password, email, primaryLanguage)
+                  .then(res => {
+                    signUp();
+                  })
+                  .catch((e: Error) => {
+                    Toast.show(
+                      `Registration attempt failed! Error: ${e.message}!`,
+                      Toast.LONG,
+                    );
+                  });
+              }}
+            />
             <Button
               title="Sign In"
               variant="ghost"
-              onPress={() => setPageType('signin')}
+              onPress={() => {
+                setUserName('');
+                setPassword('');
+                setPageType('signin');
+              }}
             />
           </View>
         </View>
@@ -144,14 +210,16 @@ const Auth = ({
           <View style={stylesheet.forgot}>
             <Input placeholder="E mail" keyboard="email-address" />
           </View>
-          <View>
-            <Button title="Send Email" variant="default" />
-          </View>
-          <View>
+          <View style={stylesheet.mainButtonContainer}>
+            <Button title="Send Email" variant="default" onPress={() => {}} />
             <Button
               title="Sign In"
               variant="ghost"
-              onPress={() => setPageType('signin')}
+              onPress={() => {
+                setUserName('');
+                setPassword('');
+                setPageType('signin');
+              }}
             />
           </View>
         </View>

@@ -5,13 +5,16 @@ import {AppContext} from '../../context';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackNavigationProps} from '../../navigation/types';
-import {Animated, Dimensions, Modal, Platform, Pressable} from 'react-native';
+import {Animated, Dimensions} from 'react-native';
 import {Button, ModalComponent} from '../../components';
 import {Auth} from '../index';
 import {pageType} from '../auth/types';
+import storage from '../../storage';
+import Websercice from '../../service/Webservice';
+import Toast from 'react-native-simple-toast';
 
 const Login = ({navigation}: RootStackNavigationProps) => {
-  const {values} = useContext(AppContext);
+  const {values, dispatch} = useContext(AppContext);
   const {theme} = values;
   const {colors} = theme;
   const {height} = Dimensions.get('window');
@@ -32,14 +35,14 @@ const Login = ({navigation}: RootStackNavigationProps) => {
   const translateBack = () => {
     Animated.timing(translateAnimY, {
       toValue: 0,
-      duration: 300,
+      duration: 500,
       useNativeDriver: true,
     }).start();
   };
   const fadeOut = () => {
     Animated.timing(fadeOutAnim, {
       toValue: 1,
-      duration: 300,
+      duration: 500,
       useNativeDriver: true,
     }).start();
   };
@@ -47,20 +50,42 @@ const Login = ({navigation}: RootStackNavigationProps) => {
     setAuthType(pageType);
     setModalVisible(true);
   };
-  const modalHideOnPress = () => {
-    setModalVisible(false);
-  };
 
   const noUser = () => {
     translateY();
     fadeOut();
   };
 
+  const goHome = (user: any) => {
+    navigation.navigate('App', {userId: user._id});
+    setTimeout(() => {
+      dispatch({type: 'UPDATE_IS_AUTH', payload: false});
+    }, 0);
+  };
+
+  const userIsAuth = () => {
+    const userString = storage.getString('user');
+    const userObject = userString ? JSON.parse(userString) : undefined;
+    if (userObject) {
+      new Websercice()
+        .isAuthor(userObject.token)
+        .then(res => {
+          goHome(res);
+        })
+        .catch((e: Error) => {
+          Toast.show(
+            `Your session has expired please log in again ${e.message}`,
+            Toast.LONG,
+          );
+          storage.set('user', '');
+          noUser();
+        });
+    } else noUser();
+  };
+
   useEffect(() => {
-    setTimeout(function () {
-      noUser();
-    }, 3000);
-  });
+    userIsAuth();
+  }, []);
 
   return (
     <LinearGradient

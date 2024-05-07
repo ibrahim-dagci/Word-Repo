@@ -6,8 +6,8 @@ const colors: Colors = {
   defaultButton: '#ffffff',
   defaultButtonText: '#000000',
   header: '#366E8F',
-  headrTint: 'dddddd',
-  headerTitle: 'dddddd',
+  headrTint: '#dddddd',
+  headerTitle: '#dddddd',
 };
 
 const variant: Variant = {
