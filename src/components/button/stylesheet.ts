@@ -29,4 +29,19 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  titleFAB: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#dddddd',
+  },
+
+  FAB: {
+    backgroundColor: '#366E8F',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    borderRadius: Platform.OS === 'android' ? 32 : 35,
+    height: Platform.OS === 'android' ? 64 : 70,
+    width: Platform.OS === 'android' ? 64 : 70,
+  },
 });

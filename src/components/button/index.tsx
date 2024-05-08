@@ -13,7 +13,7 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   onPress: () => void;
-  variant?: 'ghost' | 'default' | 'custom';
+  variant?: 'ghost' | 'default' | 'custom' | 'FAB';
   title?: string;
   customContent?: React.ReactNode;
 }
@@ -22,7 +22,7 @@ const Button: FC<ButtonProps> = ({
   title = 'title',
   style,
   onPress,
-  customContent = <Text>customContent</Text>,
+  customContent,
   textStyle,
   variant = 'default',
 }) => {
@@ -34,7 +34,20 @@ const Button: FC<ButtonProps> = ({
       {variant === 'ghost' && (
         <Text style={[stylesheet.titleGhost, textStyle]}>{title}</Text>
       )}
-      {variant === 'custom' && <View>{customContent}</View>}
+      {variant === 'custom' && (
+        <View>
+          {customContent ? customContent : <Text>CustomContent</Text>}
+        </View>
+      )}
+      {variant === 'FAB' && (
+        <View>
+          {customContent ? (
+            customContent
+          ) : (
+            <Text style={[stylesheet.titleFAB, textStyle]}>+</Text>
+          )}
+        </View>
+      )}
       {variant === undefined && (
         <Text style={[stylesheet.titleDefault, textStyle]}>{title}</Text>
       )}

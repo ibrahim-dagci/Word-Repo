@@ -15,8 +15,6 @@ const ModalPrvider: React.FC<{
   children: React.ReactNode;
   visibilityControl: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 }> = ({children, visibilityControl}) => {
-  const colorScheme = useColorScheme();
-
   const [values, setValues] = useState<ModalValueType>(modalValues);
   const updateValues = (updatedValue: Partial<ModalValueType>) => {
     setValues(prevState => ({...prevState, ...updatedValue}));

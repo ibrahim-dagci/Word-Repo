@@ -62,7 +62,7 @@ const Auth = ({
       dispatch({type: 'UPDATE_IS_AUTH', payload: false});
     }, 0);
     setModalVisible?.(false);
-    Toast.show(`Logi n successful! Welcome`, Toast.LONG);
+    Toast.show(`Log in successful! Welcome`, Toast.LONG);
     storage.set('user', JSON.stringify(currenUser));
   };
 
@@ -116,6 +116,7 @@ const Auth = ({
                       `Failed to log in! Error: ${e.message}`,
                       Toast.LONG,
                     );
+                    console.log('clicked');
                   });
               }}
             />

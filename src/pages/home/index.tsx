@@ -1,14 +1,17 @@
-import React, {useContext, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {Text, Platform, FlatList, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {AppStackNavigationPropsHome} from '../../navigation/types';
-import {Button} from '../../components';
+import {Button, LanguageCard, ModalComponent} from '../../components';
 import {AppContext} from '../../context';
-import {ProfileIcon} from '../../assets/svg';
+import {PlusIcon, ProfileIcon} from '../../assets/svg';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
   const {values} = useContext(AppContext);
   const {theme} = values;
+
+  const [modalVisibility, setModalVisibility] = useState<boolean>(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -24,7 +27,26 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
 
   return (
     <View style={stylesheet.container}>
-      <Text>UserId:{route.params.message}</Text>
+      <FlatList
+        renderItem={({item}) => <LanguageCard text={`${item}`} />}
+        data={[1, 2, 3, 4]}
+      />
+      <Button
+        onPress={() => {
+          setModalVisibility(!modalVisibility);
+        }}
+        variant="FAB"
+        customContent={<PlusIcon size={23} />}
+        style={{
+          position: 'absolute',
+          bottom: Platform.OS === 'android' ? 40 : 50,
+          right: Platform.OS === 'android' ? 40 : 40,
+        }}
+      />
+      <ModalComponent
+        visibilityControl={[modalVisibility, setModalVisibility]}
+        color={theme.colors.modal}
+      ></ModalComponent>
     </View>
   );
 };
