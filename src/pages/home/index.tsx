@@ -5,7 +5,6 @@ import {AppStackNavigationPropsHome} from '../../navigation/types';
 import {Button, LanguageCard, ModalComponent} from '../../components';
 import {AppContext} from '../../context';
 import {PlusIcon, ProfileIcon} from '../../assets/svg';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
   const {values} = useContext(AppContext);
@@ -28,8 +27,15 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
   return (
     <View style={stylesheet.container}>
       <FlatList
-        renderItem={({item}) => <LanguageCard text={`${item}`} />}
-        data={[1, 2, 3, 4]}
+        renderItem={({item}) => {
+          return (
+            <LanguageCard
+              text={item}
+              imageSource={require('../../assets/img/test.png')}
+            />
+          );
+        }}
+        data={['1', '2', '3', '4']}
       />
       <Button
         onPress={() => {

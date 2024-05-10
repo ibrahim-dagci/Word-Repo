@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -12,6 +12,7 @@ export default StyleSheet.create({
   signup: {
     paddingTop: 10,
     paddingBottom: 50,
+    height: Dimensions.get('window').height / 2.1,
   },
   forgot: {
     paddingTop: 10,

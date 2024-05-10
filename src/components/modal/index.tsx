@@ -29,7 +29,7 @@ const CustomModal: FC<ModalProps> = ({
         setModalVisible(!modalVisible);
       }}
     >
-      <Pressable style={stylesheet.modalContainer} onPress={modalHideOnPress} />
+      <Pressable style={stylesheet.modalPressible} onPress={modalHideOnPress} />
       <View style={stylesheet.container}>
         <View style={{...stylesheet.modalView, backgroundColor: color}}>
           <View style={stylesheet.bar} />

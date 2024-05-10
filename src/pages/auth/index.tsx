@@ -1,14 +1,13 @@
 import {useContext, useEffect, useState} from 'react';
-import {Keyboard, View} from 'react-native';
+import {Keyboard, ScrollView, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {pageType} from './types';
-import {Button, Input} from '../../components';
+import {Button, Input, PickerInput} from '../../components';
 import {AppContext} from '../../context';
 import {RootStackNavigationProps} from '../../navigation/types';
 import {ModalContext} from '../../components/modal/context';
 import Websercice from '../../service/Webservice';
 import Toast from 'react-native-simple-toast';
-import {err} from 'react-native-svg';
 import storage from '../../storage';
 
 const Auth = ({
@@ -33,7 +32,7 @@ const Auth = ({
   const [password, setPassword] = useState<string>('');
   const [passwordAgain, setPasswordAgain] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [primaryLanguage, setPrimaryLanguage] = useState<string>('');
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   useEffect(() => {
     switch (pageType) {
       case 'signin':
@@ -135,46 +134,47 @@ const Auth = ({
       {sigup && (
         <View style={stylesheet.container}>
           <View style={stylesheet.signup}>
-            <Input
-              placeholder="E mail"
-              keyboard="email-address"
-              onChangeText={value => setEmail(value)}
-              value={email}
-              returnKeyType="done"
-              onSubmitEnding={() => Keyboard.dismiss()}
-            />
-            <Input
-              placeholder="User Name"
-              keyboard="email-address"
-              onChangeText={value => setUserName(value)}
-              value={userName}
-              returnKeyType="done"
-              onSubmitEnding={() => Keyboard.dismiss()}
-            />
-            <Input
-              placeholder="Password"
-              keyboard="visible-password"
-              onChangeText={value => setPassword(value)}
-              value={password}
-              returnKeyType="done"
-              onSubmitEnding={() => Keyboard.dismiss()}
-            />
-            <Input
-              placeholder="Password (again)"
-              keyboard="visible-password"
-              onChangeText={value => setPasswordAgain(value)}
-              value={passwordAgain}
-              returnKeyType="done"
-              onSubmitEnding={() => Keyboard.dismiss()}
-            />
-            <Input
-              placeholder="Primary Language"
-              keyboard="email-address"
-              onChangeText={value => setPrimaryLanguage(value)}
-              value={primaryLanguage}
-              returnKeyType="done"
-              onSubmitEnding={() => Keyboard.dismiss()}
-            />
+            <ScrollView>
+              <Input
+                placeholder="E mail"
+                keyboard="email-address"
+                onChangeText={value => setEmail(value)}
+                value={email}
+                returnKeyType="done"
+                onSubmitEnding={() => Keyboard.dismiss()}
+              />
+              <Input
+                placeholder="User Name"
+                keyboard="email-address"
+                onChangeText={value => setUserName(value)}
+                value={userName}
+                returnKeyType="done"
+                onSubmitEnding={() => Keyboard.dismiss()}
+              />
+              <Input
+                placeholder="Password"
+                isSecure={true}
+                onChangeText={value => setPassword(value)}
+                value={password}
+                returnKeyType="done"
+                onSubmitEnding={() => Keyboard.dismiss()}
+              />
+              <Input
+                placeholder="Password (again)"
+                isSecure={true}
+                onChangeText={value => setPasswordAgain(value)}
+                value={passwordAgain}
+                returnKeyType="done"
+                onSubmitEnding={() => Keyboard.dismiss()}
+              />
+              <PickerInput
+                data={[]}
+                selectControlStateArray={[
+                  selectedLanguage,
+                  setSelectedLanguage,
+                ]}
+              />
+            </ScrollView>
           </View>
           <View style={stylesheet.mainButtonContainer}>
             <Button
@@ -182,7 +182,7 @@ const Auth = ({
               variant="default"
               onPress={() => {
                 new Websercice()
-                  .signUp(userName, password, email, primaryLanguage)
+                  .signUp(userName, password, email, selectedLanguage)
                   .then(res => {
                     signUp();
                   })

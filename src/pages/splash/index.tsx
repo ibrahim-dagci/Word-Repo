@@ -27,7 +27,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
 
   const translateY = () => {
     Animated.timing(translateAnimY, {
-      toValue: -(height * 4) / 7 / 2,
+      toValue: -(height * 4) / 7 / 1.7,
       duration: 300,
       useNativeDriver: true,
     }).start();

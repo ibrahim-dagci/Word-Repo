@@ -11,7 +11,4 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  modalContainer: {
-    flex: 0.6,
-  },
 });

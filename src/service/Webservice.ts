@@ -34,7 +34,7 @@ export default class Websercice {
     email: string,
     primaryLanguage: string,
   ): Promise<any> {
-    const response = await fetch(`${this.baseUrl}/api/users/`, {
+    const response = await fetch(`${this.baseUrl}/api/users/signUp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

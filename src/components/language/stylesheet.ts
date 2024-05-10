@@ -2,9 +2,10 @@ import {Dimensions, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    height: Dimensions.get('window').height / 4.3,
+    height: Dimensions.get('window').width / 1.93,
     width: Dimensions.get('window').width,
     justifyContent: 'center',
+    backgroundColor: 'gray',
     alignItems: 'center',
   },
   text: {
