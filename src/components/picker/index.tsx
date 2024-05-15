@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {Picker} from '@react-native-picker/picker';
 
@@ -13,15 +13,21 @@ const PickerComponent: FC<PickerComponentProps> = ({
   selectControlStateArray,
 }) => {
   const [selectedValue, setSelectedValue] = selectControlStateArray;
+  const flag = 'U+1F1F9 U+1F1F7'
+    .split(' ') // Unicode kodlarını boşluklardan ayır
+    .map(code => String.fromCodePoint(parseInt(code.replace('U+', ''), 16)));
   return (
     <View style={stylesheet.container}>
-      <View style={stylesheet.icon}></View>
+      <View>
+        <Text style={{fontSize: 40}}>{flag}</Text>
+      </View>
       <Picker
         style={{flex: 1}}
         selectedValue={selectedValue}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+        mode="dialog"
       >
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           return (
             <Picker.Item label={item.label} value={item.value} key={index} />
           );

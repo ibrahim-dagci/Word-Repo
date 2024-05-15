@@ -1,14 +1,12 @@
 import {useContext, useEffect, useState} from 'react';
-import {Keyboard, ScrollView, View} from 'react-native';
+import {View} from 'react-native';
 import stylesheet from './stylesheet';
 import {pageType} from './types';
-import {Button, Input, PickerInput} from '../../components';
 import {AppContext} from '../../context';
 import {RootStackNavigationProps} from '../../navigation/types';
-import {ModalContext} from '../../components/modal/context';
-import Websercice from '../../service/Webservice';
-import Toast from 'react-native-simple-toast';
-import storage from '../../storage';
+import SignIn from './signin';
+import SignUp from './signup';
+import Forgot from './forgot';
 
 const Auth = ({
   processType,
@@ -21,18 +19,11 @@ const Auth = ({
   const {theme} = values;
   const {colors} = theme;
 
-  const {modalVisibilityControl} = useContext(ModalContext);
-  const [modalVisible, setModalVisible] = modalVisibilityControl || [];
-
   const [pageType, setPageType] = useState<pageType>(processType);
   const [signin, setSignin] = useState<boolean>(false);
   const [forgot, setForgot] = useState<boolean>(false);
   const [sigup, setSignup] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordAgain, setPasswordAgain] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('');
+
   useEffect(() => {
     switch (pageType) {
       case 'signin':
@@ -53,178 +44,21 @@ const Auth = ({
     }
   }, [pageType]);
 
-  const signIn = (currenUser: any) => {
-    navigation?.navigate('App', {
-      userId: currenUser.user._id,
-    });
-    setTimeout(() => {
-      dispatch({type: 'UPDATE_IS_AUTH', payload: false});
-    }, 0);
-    setModalVisible?.(false);
-    Toast.show(`Log in successful! Welcome`, Toast.LONG);
-    storage.set('user', JSON.stringify(currenUser));
-  };
-
-  const signUp = () => {
-    setPageType('signin');
-    Toast.show('Sign up succesfull! Please Sign In', Toast.LONG);
-    setUserName('');
-    setPassword('');
-  };
-
   return (
     <View style={stylesheet.container}>
       {signin && (
-        <View style={stylesheet.container}>
-          <View style={stylesheet.signin}>
-            <Input
-              onChangeText={value => setUserName(value)}
-              keyboard="email-address"
-              placeholder="User Name"
-              value={userName}
-              returnKeyType="done"
-              onSubmitEnding={() => Keyboard.dismiss()}
-            />
-            <Input
-              placeholder="Password"
-              isSecure={true}
-              onChangeText={value => setPassword(value)}
-              value={password}
-              returnKeyType="done"
-              onSubmitEnding={() => Keyboard.dismiss()}
-            />
-            <Button
-              variant="ghost"
-              title="I forgot password !"
-              onPress={() => setPageType('forgot')}
-              style={{position: 'absolute', bottom: 0, right: 0}}
-            />
-          </View>
-          <View style={stylesheet.mainButtonContainer}>
-            <Button
-              title="Sign In"
-              variant="default"
-              onPress={() => {
-                new Websercice()
-                  .signIn(userName, password)
-                  .then((currenUser: any) => {
-                    signIn(currenUser);
-                  })
-                  .catch((e: Error) => {
-                    Toast.show(
-                      `Failed to log in! Error: ${e.message}`,
-                      Toast.LONG,
-                    );
-                    console.log('clicked');
-                  });
-              }}
-            />
-            <Button
-              title="Sign Up"
-              variant="ghost"
-              onPress={() => {
-                setUserName('');
-                setPassword('');
-                setPageType('signup');
-              }}
-            />
-          </View>
-        </View>
+        <SignIn
+          processTypeControl={[pageType, setPageType]}
+          navigation={navigation}
+        />
       )}
       {sigup && (
-        <View style={stylesheet.container}>
-          <View style={stylesheet.signup}>
-            <ScrollView>
-              <Input
-                placeholder="E mail"
-                keyboard="email-address"
-                onChangeText={value => setEmail(value)}
-                value={email}
-                returnKeyType="done"
-                onSubmitEnding={() => Keyboard.dismiss()}
-              />
-              <Input
-                placeholder="User Name"
-                keyboard="email-address"
-                onChangeText={value => setUserName(value)}
-                value={userName}
-                returnKeyType="done"
-                onSubmitEnding={() => Keyboard.dismiss()}
-              />
-              <Input
-                placeholder="Password"
-                isSecure={true}
-                onChangeText={value => setPassword(value)}
-                value={password}
-                returnKeyType="done"
-                onSubmitEnding={() => Keyboard.dismiss()}
-              />
-              <Input
-                placeholder="Password (again)"
-                isSecure={true}
-                onChangeText={value => setPasswordAgain(value)}
-                value={passwordAgain}
-                returnKeyType="done"
-                onSubmitEnding={() => Keyboard.dismiss()}
-              />
-              <PickerInput
-                data={[]}
-                selectControlStateArray={[
-                  selectedLanguage,
-                  setSelectedLanguage,
-                ]}
-              />
-            </ScrollView>
-          </View>
-          <View style={stylesheet.mainButtonContainer}>
-            <Button
-              title="Sign Up"
-              variant="default"
-              onPress={() => {
-                new Websercice()
-                  .signUp(userName, password, email, selectedLanguage)
-                  .then(res => {
-                    signUp();
-                  })
-                  .catch((e: Error) => {
-                    Toast.show(
-                      `Registration attempt failed! Error: ${e.message}!`,
-                      Toast.LONG,
-                    );
-                  });
-              }}
-            />
-            <Button
-              title="Sign In"
-              variant="ghost"
-              onPress={() => {
-                setUserName('');
-                setPassword('');
-                setPageType('signin');
-              }}
-            />
-          </View>
-        </View>
+        <SignUp
+          processTypeControl={[pageType, setPageType]}
+          navigation={navigation}
+        />
       )}
-      {forgot && (
-        <View style={stylesheet.container}>
-          <View style={stylesheet.forgot}>
-            <Input placeholder="E mail" keyboard="email-address" />
-          </View>
-          <View style={stylesheet.mainButtonContainer}>
-            <Button title="Send Email" variant="default" onPress={() => {}} />
-            <Button
-              title="Sign In"
-              variant="ghost"
-              onPress={() => {
-                setUserName('');
-                setPassword('');
-                setPageType('signin');
-              }}
-            />
-          </View>
-        </View>
-      )}
+      {forgot && <Forgot processTypeControl={[pageType, setPageType]} />}
     </View>
   );
 };

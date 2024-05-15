@@ -10,7 +10,7 @@ import {Button, ModalComponent} from '../../components';
 import {Auth} from '../index';
 import {pageType} from '../auth/types';
 import storage from '../../storage';
-import Websercice from '../../service/Webservice';
+import {UserService} from '../../service/webservice';
 import Toast from 'react-native-simple-toast';
 
 const Login = ({navigation}: RootStackNavigationProps) => {
@@ -67,7 +67,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
     const userString = storage.getString('user');
     const userObject = userString ? JSON.parse(userString) : undefined;
     if (userObject) {
-      new Websercice()
+      new UserService()
         .isAuthor(userObject.token)
         .then(res => {
           goHome(res);

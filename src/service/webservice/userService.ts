@@ -1,21 +1,20 @@
-import {err} from 'react-native-svg';
-import {SERVRER_ADRESS} from '../constants';
+import {SERVRER_ADRESS} from '../../constants';
 
-export default class Websercice {
+export default class UserService {
   private baseUrl: string;
 
   constructor() {
     this.baseUrl = SERVRER_ADRESS;
   }
 
-  async signIn(userName: string, password: string): Promise<any> {
+  async signIn(email: string, password: string): Promise<any> {
     const response = await fetch(`${this.baseUrl}/api/users/signIn`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userName: userName,
+        email: email,
         password: password,
       }),
     })
