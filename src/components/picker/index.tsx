@@ -6,20 +6,22 @@ import {Picker} from '@react-native-picker/picker';
 interface PickerComponentProps {
   data: {label: string; value: any}[];
   selectControlStateArray: [any, React.Dispatch<React.SetStateAction<any>>];
+  symbol?: string;
+  title?: string;
 }
 
 const PickerComponent: FC<PickerComponentProps> = ({
   data,
   selectControlStateArray,
+  symbol = '',
+  title,
 }) => {
   const [selectedValue, setSelectedValue] = selectControlStateArray;
-  const flag = 'U+1F1F9 U+1F1F7'
-    .split(' ') // Unicode kodlarını boşluklardan ayır
-    .map(code => String.fromCodePoint(parseInt(code.replace('U+', ''), 16)));
   return (
     <View style={stylesheet.container}>
+      <Text style={stylesheet.placeholder}>{title}</Text>
       <View>
-        <Text style={{fontSize: 40}}>{flag}</Text>
+        <Text style={{fontSize: 40}}>{symbol}</Text>
       </View>
       <Picker
         style={{flex: 1}}

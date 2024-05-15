@@ -8,4 +8,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     padding: Platform.OS === 'android' ? 5 : 5,
   },
+
+  placeholder: {
+    position: 'absolute',
+    color: 'gray',
+    textAlign: 'center',
+    top: 10,
+    left: 10,
+  },
 });
