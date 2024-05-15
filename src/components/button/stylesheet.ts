@@ -44,4 +44,7 @@ export default StyleSheet.create({
     height: Platform.OS === 'android' ? 64 : 70,
     width: Platform.OS === 'android' ? 64 : 70,
   },
+  disabled: {
+    opacity: 0.2,
+  },
 });

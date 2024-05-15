@@ -7,7 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import stylesheet from './stylesheet';
-import {FC} from 'react';
+import {FC, useEffect, useState} from 'react';
 
 interface ButtonProps {
   style?: StyleProp<ViewStyle>;
@@ -16,6 +16,7 @@ interface ButtonProps {
   variant?: 'ghost' | 'default' | 'custom' | 'FAB';
   title?: string;
   customContent?: React.ReactNode;
+  loading?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -25,9 +26,19 @@ const Button: FC<ButtonProps> = ({
   customContent,
   textStyle,
   variant = 'default',
+  loading = false,
 }) => {
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    setDisabled(loading);
+  }, [loading]);
+
   return (
-    <TouchableOpacity style={[stylesheet[variant], style]} onPress={onPress}>
+    <TouchableOpacity
+      style={[stylesheet[variant], style, disabled ? stylesheet.disabled : {}]}
+      onPress={disabled ? undefined : onPress}
+    >
       {variant === 'default' && (
         <Text style={[stylesheet.titleDefault, textStyle]}>{title}</Text>
       )}
