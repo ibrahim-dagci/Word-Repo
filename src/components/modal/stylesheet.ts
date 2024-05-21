@@ -5,7 +5,6 @@ export default StyleSheet.create({
     flex: 1,
   },
   modalView: {
-    width: '100%',
     flex: 1,
     backgroundColor: 'white',
     borderTopRightRadius: 25,

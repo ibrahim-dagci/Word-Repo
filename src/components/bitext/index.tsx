@@ -3,7 +3,7 @@ import {StyleProp, Text, TextStyle, View} from 'react-native';
 import stylesheet from './stylesheet';
 
 interface BitextProps {
-  leftText: string;
+  leftText: string | string[];
   rightText: string;
   leftStyle?: StyleProp<TextStyle>;
   rightStyle?: StyleProp<TextStyle>;

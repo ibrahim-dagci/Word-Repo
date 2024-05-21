@@ -5,6 +5,7 @@ import {AppStackNavigationPropsHome} from '../../navigation/types';
 import {Button, LanguageCard, ModalComponent} from '../../components';
 import {AppContext} from '../../context';
 import {PlusIcon, ProfileIcon} from '../../assets/svg';
+import {Select} from '../../pages';
 
 const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
   const {values} = useContext(AppContext);
@@ -54,7 +55,9 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
       <ModalComponent
         visibilityControl={[modalVisibility, setModalVisibility]}
         color={theme.colors.modal}
-      ></ModalComponent>
+      >
+        <Select />
+      </ModalComponent>
     </View>
   );
 };
