@@ -17,7 +17,9 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
       headerRight: () => (
         <Button
           variant="custom"
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() =>
+            navigation.navigate('Profile', {user: route.params.user})
+          }
           customContent={<ProfileIcon size={25} />}
         />
       ),

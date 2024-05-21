@@ -25,7 +25,7 @@ const SignIn = ({processTypeControl, navigation}: SignInProps) => {
 
   const signInOnclick = (currenUser: any) => {
     navigation?.navigate('App', {
-      userId: currenUser.user._id,
+      user: currenUser.user,
     });
     setTimeout(() => {
       dispatch({type: 'UPDATE_IS_AUTH', payload: false});

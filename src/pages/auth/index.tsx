@@ -52,12 +52,7 @@ const Auth = ({
           navigation={navigation}
         />
       )}
-      {sigup && (
-        <SignUp
-          processTypeControl={[pageType, setPageType]}
-          navigation={navigation}
-        />
-      )}
+      {sigup && <SignUp processTypeControl={[pageType, setPageType]} />}
       {forgot && <Forgot processTypeControl={[pageType, setPageType]} />}
     </View>
   );

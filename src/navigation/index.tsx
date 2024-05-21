@@ -38,7 +38,7 @@ const AppNavigation = ({route}: RootStackNavigationPropsApp) => {
       <AppStack.Screen
         name="Home"
         component={HomePage}
-        initialParams={{message: route.params.userId}}
+        initialParams={{user: route.params.user}}
         options={{
           headerBackVisible: false,
           headerStyle: {backgroundColor: theme.colors.header},

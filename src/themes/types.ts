@@ -1,16 +1,17 @@
 export type Colors = {
-  gradient: string[];
-  modal: string;
-  defaultButton: string;
   defaultButtonText: string;
-  header: string;
-  headrTint: string;
+  pageBackground: string;
+  defaultButton: string;
   headerTitle: string;
+  gradient: string[];
+  headrTint: string;
+  header: string;
+  modal: string;
 };
 
 export type Variant = {
-  key: string;
   colors: Colors;
+  key: string;
 };
 
 export type Variants = {

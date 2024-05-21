@@ -57,7 +57,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
   };
 
   const goHome = (user: any) => {
-    navigation.navigate('App', {userId: user._id});
+    navigation.navigate('App', {user: user});
     setTimeout(() => {
       dispatch({type: 'UPDATE_IS_AUTH', payload: false});
     }, 0);
