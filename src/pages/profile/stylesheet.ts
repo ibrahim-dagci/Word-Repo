@@ -1,13 +1,13 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
+    gap: Platform.OS === 'android' ? 40 : 50,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 100,
+    paddingTop: 70,
     padding: 24,
     flex: 1,
-    gap: 80,
   },
   informationContainer: {
     width: '100%',

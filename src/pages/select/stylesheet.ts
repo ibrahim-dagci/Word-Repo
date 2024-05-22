@@ -10,6 +10,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     width: '100%',
     fontSize: 25,
-    padding: 10,
+    padding: 5,
   },
 });

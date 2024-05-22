@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, Platform, Text, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {Bitext} from '../../components';
 import storage from '../../storage';
@@ -31,7 +31,7 @@ const Select = () => {
             <Bitext
               leftText={unicodeToSymbol(item.flagUnicode)}
               rightText={item.name}
-              leftStyle={{fontSize: 35}}
+              leftStyle={{fontSize: Platform.OS === 'android' ? 30 : 35}}
               rightStyle={{color: 'black'}}
             />
           );

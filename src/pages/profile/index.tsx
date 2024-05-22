@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {Platform, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {AppStackNavigationPropsProfile} from '../../navigation/types';
 import {Bitext, Button} from '../../components';
@@ -67,7 +67,7 @@ const Profile = ({route, navigation}: AppStackNavigationPropsProfile) => {
           rightText={`Primary Language: ${
             userLanguage.name ? userLanguage.name : ''
           }`}
-          leftStyle={{fontSize: 35}}
+          leftStyle={{fontSize: Platform.OS === 'android' ? 30 : 35}}
         />
       </View>
       <View style={stylesheet.buttonContainer}>
