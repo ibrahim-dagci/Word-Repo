@@ -3,7 +3,6 @@ import stylesheet from './stylesheet';
 import {Keyboard, ScrollView, View} from 'react-native';
 import {Button, Input, PickerInput} from '../../components';
 import {LanguageService, UserService} from '../../service/webservice';
-import {RootStackNavigationProps} from '../../navigation/types';
 import {pageType} from './types';
 import {AppContext} from '../../context';
 import Toast from 'react-native-simple-toast';

@@ -4,13 +4,7 @@ export type RootStackParamList = {
   Auth: undefined;
   App: {user: any};
 };
-export type AuthStackParamList = {
-  Login: undefined;
-};
-export type AppStackParamList = {
-  Home: {user: any};
-  Profile: {user: any};
-};
+
 export type RootStackNavigationProps =
   NativeStackScreenProps<RootStackParamList>;
 
@@ -22,10 +16,21 @@ export type RootStackNavigationPropsAuth = NativeStackScreenProps<
   RootStackParamList,
   'Auth'
 >;
+//--------------------------------------------------------------------------------
+export type AuthStackParamList = {
+  Login: undefined;
+};
 export type AuthStackNavigationProps = NativeStackScreenProps<
   AuthStackParamList,
   'Login'
 >;
+
+//---------------------------------------------------------------------------------
+export type AppStackParamList = {
+  Home: {user: any};
+  Profile: {user: any};
+  Language: {user: any};
+};
 
 export type AppStackNavigationPropsHome = NativeStackScreenProps<
   AppStackParamList,
@@ -34,4 +39,25 @@ export type AppStackNavigationPropsHome = NativeStackScreenProps<
 export type AppStackNavigationPropsProfile = NativeStackScreenProps<
   AppStackParamList,
   'Profile'
+>;
+
+export type AppStackNavigationPropsLanguage = NativeStackScreenProps<
+  AppStackParamList,
+  'Language'
+>;
+
+//------------------------------------------------------------
+export type TabStackParamList = {
+  Words: {user: any};
+  Chat: undefined;
+};
+
+export type TabStackNavigationPropsLanguage = NativeStackScreenProps<
+  TabStackParamList,
+  'Words'
+>;
+
+export type TabStackNavigationPropsChat = NativeStackScreenProps<
+  TabStackParamList,
+  'Chat'
 >;

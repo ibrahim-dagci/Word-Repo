@@ -33,12 +33,21 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
         renderItem={({item}) => {
           return (
             <LanguageCard
-              text={item}
-              imageSource={require('../../assets/img/test.png')}
+              text={item.name}
+              imageSource={item.source}
+              onPress={() => {
+                navigation.navigate('Language', {user: route.params.user});
+              }}
             />
           );
         }}
-        data={['1', '2', '3', '4']}
+        data={[
+          {name: 'Turkish', source: require('../../assets/img/testTr.png')},
+          {name: 'Arabic', source: require('../../assets/img/test.png')},
+          {name: 'German', source: require('../../assets/img/testDe.png')},
+          {name: 'English', source: require('../../assets/img/testEn.png')},
+        ]}
+        keyExtractor={item => item.name}
       />
       <Button
         onPress={() => {
