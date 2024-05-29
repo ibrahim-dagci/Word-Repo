@@ -1,14 +1,15 @@
 import themes from '../themes';
 import {GlobalValues} from './types';
-import {useColorScheme} from 'react-native';
-import React, {createContext, useEffect, useReducer, useState} from 'react';
+import {ActivityIndicator, View, useColorScheme} from 'react-native';
+import React, {createContext, useEffect, useReducer} from 'react';
 
 const globalValues: GlobalValues = {
   theme: themes.dark,
   isAuth: true,
+  loading: false,
 };
 type actionTypes = {
-  type: 'UPDATE_THEME' | 'UPDATE_IS_AUTH';
+  type: 'UPDATE_THEME' | 'UPDATE_IS_AUTH' | 'UPDATE_LOADING';
   payload: any;
 };
 type contexDefaultValueTypes = {
@@ -26,6 +27,8 @@ const globalReducer = (state: GlobalValues, action: actionTypes) => {
       return {...state, theme: action.payload};
     case 'UPDATE_IS_AUTH':
       return {...state, isAuth: action.payload};
+    case 'UPDATE_LOADING':
+      return {...state, loading: action.payload};
     default:
       return state;
   }
@@ -44,6 +47,20 @@ const AppProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
   return (
     <AppContext.Provider value={{values, dispatch}}>
       {children}
+      {values.loading && (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            zIndex: 100,
+          }}
+        >
+          <ActivityIndicator size={'large'} color={'gray'} />
+        </View>
+      )}
     </AppContext.Provider>
   );
 };

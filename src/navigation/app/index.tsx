@@ -44,8 +44,6 @@ const AppNavigation = ({route}: RootStackNavigationPropsApp) => {
       <AppStack.Screen
         name="Language"
         options={{
-          headerBackVisible: false,
-          headerStyle: {backgroundColor: theme.colors.header},
           headerShown: false,
         }}
         component={BottomTabs}

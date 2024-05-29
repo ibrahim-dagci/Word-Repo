@@ -70,7 +70,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
       new UserService()
         .isAuthor(userObject.token)
         .then(res => {
-          goHome(res);
+          goHome({token: userObject.token, user: res});
         })
         .catch((e: Error) => {
           Toast.show(

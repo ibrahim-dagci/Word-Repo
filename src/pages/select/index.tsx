@@ -1,11 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, Platform, Text, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {Bitext} from '../../components';
 import storage from '../../storage';
+import {UserLanguageService} from '../../service/webservice';
+import {ModalContext} from '../../components/modal/context';
+import Toast from 'react-native-simple-toast';
 
 const Select = () => {
+  const {modalVisibilityControl} = useContext(ModalContext);
+  const [modalVisible, setModalVisible] = modalVisibilityControl || [];
   const [languages, setLanguages] = useState<any[]>([]);
+
+  const [currentUser, setCurrentUser] = useState<any>();
+
+  useEffect(() => {
+    const userString = storage.getString('user');
+    const userObject = userString ? JSON.parse(userString) : [];
+    setCurrentUser(userObject);
+  }, []);
 
   useEffect(() => {
     const languagesString = storage.getString('languages');
@@ -33,10 +46,21 @@ const Select = () => {
               rightText={item.name}
               leftStyle={{fontSize: Platform.OS === 'android' ? 30 : 35}}
               rightStyle={{color: 'black'}}
+              onPress={() => {
+                new UserLanguageService()
+                  .createUserLanguage(currentUser.token, item.symbol)
+                  .then(() => {
+                    setModalVisible?.(!modalVisible);
+                  })
+                  .catch(e => {
+                    Toast.show(`${e.name}:${e.message}`, Toast.LONG);
+                  });
+              }}
             />
           );
         }}
         data={languages}
+        keyExtractor={item => item.name}
       />
     </View>
   );

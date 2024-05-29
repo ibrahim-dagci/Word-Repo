@@ -14,6 +14,7 @@ export default StyleSheet.create({
     fontSize: 50,
   },
   image: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
   },
 });

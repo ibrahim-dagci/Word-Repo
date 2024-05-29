@@ -1,2 +1,3 @@
-export {default as UserService} from './userService';
-export {default as LanguageService} from './languageService';
+export {default as UserService} from './user';
+export {default as LanguageService} from './language';
+export {default as UserLanguageService} from './user_language';

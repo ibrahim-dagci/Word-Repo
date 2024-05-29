@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import {StyleProp, Text, TextStyle, View} from 'react-native';
+import {Pressable, StyleProp, Text, TextStyle, View} from 'react-native';
 import stylesheet from './stylesheet';
 
 interface BitextProps {
@@ -7,6 +7,7 @@ interface BitextProps {
   rightText: string;
   leftStyle?: StyleProp<TextStyle>;
   rightStyle?: StyleProp<TextStyle>;
+  onPress?: () => void;
 }
 
 const Bitext: FC<BitextProps> = ({
@@ -14,12 +15,13 @@ const Bitext: FC<BitextProps> = ({
   rightText = 'rightText',
   leftStyle = {},
   rightStyle = {},
+  onPress = () => {},
 }) => {
   return (
-    <View style={stylesheet.container}>
+    <Pressable style={stylesheet.container} onPress={onPress}>
       <Text style={[stylesheet.text, leftStyle]}>{leftText}</Text>
       <Text style={[stylesheet.text, rightStyle]}>{rightText}</Text>
-    </View>
+    </Pressable>
   );
 };
 
