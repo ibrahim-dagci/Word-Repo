@@ -7,29 +7,22 @@ import {AppContext} from '../../context';
 import {PlusIcon, ProfileIcon} from '../../assets/svg';
 import {Select} from '../../pages';
 import {UserLanguageService} from '../../service/webservice';
-import storage from '../../storage';
 import Toast from 'react-native-simple-toast';
 import {SERVRER_ADRESS} from '../../constants';
 
 const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
-  const {values} = useContext(AppContext);
+  const {values, dispatch} = useContext(AppContext);
   const {
     theme: {colors},
+    loading,
   } = values;
 
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
-  const [allLanguages, setAllLanguages] = useState<any[]>([]);
   const [listData, setListData] = useState<any[]>([]);
 
   useEffect(() => {
-    const languagesString = storage.getString('languages');
-    const languagesObject = languagesString ? JSON.parse(languagesString) : [];
-    setAllLanguages(languagesObject);
-  }, []);
-
-  useEffect(() => {
-    filterListData(allLanguages);
-  }, [allLanguages, modalVisibility]);
+    getListData();
+  }, [modalVisibility]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -45,19 +38,17 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
     });
   }, []);
 
-  const filterListData = (allLanguages: any[]) => {
+  const getListData = () => {
+    dispatch({type: 'UPDATE_LOADING', payload: true});
     new UserLanguageService()
       .getUserLanguages(route.params.user.token)
       .then(res => {
-        const filteredLanguages = allLanguages.filter(item => {
-          return res.find(
-            (innerItem: any) => innerItem.languageSymbol === item.symbol,
-          );
-        });
-        setListData(filteredLanguages);
+        setListData(res);
+        dispatch({type: 'UPDATE_LOADING', payload: false});
       })
       .catch(e => {
         Toast.show(`${e.name}: ${e.message}`, Toast.LONG);
+        dispatch({type: 'UPDATE_LOADING', payload: false});
       });
   };
 
