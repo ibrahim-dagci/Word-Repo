@@ -3,6 +3,7 @@ import {AppContext} from '../../context';
 import {TabStackParamList} from '../types';
 import {Chat, Words} from '../../pages';
 import {useContext} from 'react';
+import {ChatIcon, CloudIcon} from '../../assets/svg';
 
 const LanguageStack = createBottomTabNavigator<TabStackParamList>();
 
@@ -22,6 +23,9 @@ const BottomTabs = () => {
             fontWeight: 'bold',
             fontSize: 20,
           },
+          tabBarIcon: ({color, size}) => (
+            <CloudIcon size={size} color={color} />
+          ),
         }}
       />
       <LanguageStack.Screen
@@ -35,6 +39,7 @@ const BottomTabs = () => {
             fontWeight: 'bold',
             fontSize: 20,
           },
+          tabBarIcon: ({color, size}) => <ChatIcon size={size} color={color} />,
         }}
       />
     </LanguageStack.Navigator>
