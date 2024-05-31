@@ -4,6 +4,7 @@ import stylesheet from './stylesheet';
 import {Bitext} from '../../components';
 import storage from '../../storage';
 import {UserLanguageService} from '../../service/webservice';
+import {fetchAndSaveLanguages} from '../../service/storageservice';
 import {ModalContext} from '../../components/modal/context';
 import Toast from 'react-native-simple-toast';
 
@@ -21,10 +22,17 @@ const Select = () => {
   }, []);
 
   useEffect(() => {
+    setListLata();
+  }, []);
+
+  const setListLata = async () => {
+    await fetchAndSaveLanguages().catch((e: Error) => {
+      Toast.show(`Network Error:${e.message}`, Toast.LONG);
+    });
     const languagesString = storage.getString('languages');
     const languagesObject = languagesString ? JSON.parse(languagesString) : [];
     setLanguages(languagesObject);
-  }, []);
+  };
 
   const unicodeToSymbol = (unicode: string) => {
     //Converts the flag unicode of the selected language item to emoji
