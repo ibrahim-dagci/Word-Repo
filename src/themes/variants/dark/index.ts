@@ -7,7 +7,10 @@ const colors: Colors = {
   defaultButton: '#ffffff',
   headerTitle: '#dddddd',
   headrTint: '#dddddd',
+  secondary: '#FFFFFF',
+  primary: '#366E8F',
   header: '#366E8F',
+  shadow: '#000000',
   modal: '#dddddd',
 };
 

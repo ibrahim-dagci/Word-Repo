@@ -5,7 +5,10 @@ export type Colors = {
   headerTitle: string;
   gradient: string[];
   headrTint: string;
+  secondary: string;
+  primary: string;
   header: string;
+  shadow: string;
   modal: string;
 };
 
