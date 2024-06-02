@@ -4,22 +4,60 @@ import stylesheet from './stylesheet';
 import {ModalPrvider} from './context';
 
 interface ModalProps {
-  color?: string;
-  children?: ReactNode;
-  animationType?: 'slide' | 'none' | 'fade';
   visibilityControl: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  animationType?: 'slide' | 'none' | 'fade';
+  variant: 'bottom' | 'card';
+  children?: ReactNode;
+  color?: string;
 }
 
 const CustomModal: FC<ModalProps> = ({
-  color = 'white',
-  children,
   animationType = 'slide',
   visibilityControl,
+  variant = 'bottom',
+  color = 'white',
+  children,
 }) => {
   const [modalVisible, setModalVisible] = visibilityControl;
   const modalHideOnPress = () => {
     setModalVisible(false);
   };
+
+  const Bottom = () => {
+    return (
+      <View style={stylesheet.container}>
+        <Pressable
+          style={stylesheet.modalPressible}
+          onPress={modalHideOnPress}
+        />
+        <View style={{...stylesheet.bottom, backgroundColor: color}}>
+          <View style={stylesheet.bar} />
+          <ModalPrvider visibilityControl={visibilityControl}>
+            {children}
+          </ModalPrvider>
+        </View>
+      </View>
+    );
+  };
+
+  const Card = () => {
+    return (
+      <Pressable
+        style={[stylesheet.container, stylesheet.cardContainer]}
+        onPress={modalHideOnPress}
+      >
+        <Pressable
+          style={{...stylesheet.card, backgroundColor: color}}
+          onPress={undefined}
+        >
+          <ModalPrvider visibilityControl={visibilityControl}>
+            {children}
+          </ModalPrvider>
+        </Pressable>
+      </Pressable>
+    );
+  };
+
   return (
     <Modal
       animationType={animationType}
@@ -29,15 +67,8 @@ const CustomModal: FC<ModalProps> = ({
         setModalVisible(!modalVisible);
       }}
     >
-      <Pressable style={stylesheet.modalPressible} onPress={modalHideOnPress} />
-      <View style={stylesheet.container}>
-        <View style={{...stylesheet.modalView, backgroundColor: color}}>
-          <View style={stylesheet.bar} />
-          <ModalPrvider visibilityControl={visibilityControl}>
-            {children}
-          </ModalPrvider>
-        </View>
-      </View>
+      {variant === 'bottom' && <Bottom />}
+      {variant === 'card' && <Card />}
     </Modal>
   );
 };

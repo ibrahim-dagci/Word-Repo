@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
   },
-  modalView: {
+  bottom: {
     flex: 1,
     backgroundColor: 'white',
     borderTopRightRadius: 15,
@@ -19,6 +19,16 @@ export default StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 10,
+  },
+  card: {
+    width: Dimensions.get('window').width / 1.35,
+    height: (Dimensions.get('window').width / 1.4 / 3) * 4,
+    borderRadius: 15,
+  },
+  cardContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bar: {
     backgroundColor: 'gray',

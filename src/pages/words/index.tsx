@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import stylesheet from './stylesheet';
 import {TabStackNavigationPropsLanguage} from '../../navigation/types';
-import {Button, Switcher, Word} from '../../components';
+import {Button, ModalComponent, Switcher, Word} from '../../components';
 import {EarthIcon, PenIcon} from '../../assets/svg';
 import {AppContext} from '../../context';
 
@@ -12,7 +12,7 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
     theme: {colors},
   } = values;
   const [validSwitchState, setValidSwitchState] = useState<boolean>(false);
-  const [modalVisibility, setModalVisibility] = useState<boolean>(false);
+  const [modalVisibility, setModalVisibility] = useState<boolean>(true);
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -28,7 +28,7 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
           variant="custom"
           customContent={<PenIcon size={25} />}
           onPress={() => {
-            setModalVisibility(!modalVisibility);
+            setModalVisibility(true);
           }}
           style={{marginRight: 15}}
         />
@@ -66,6 +66,11 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
         horizontal={false}
         numColumns={2}
       />
+      <ModalComponent
+        visibilityControl={[modalVisibility, setModalVisibility]}
+        animationType="fade"
+        variant="card"
+      ></ModalComponent>
     </View>
   );
 };
