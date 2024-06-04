@@ -2,8 +2,10 @@ import {FC} from 'react';
 import {
   KeyboardTypeOptions,
   ReturnKeyTypeOptions,
+  StyleProp,
   TextInput,
   View,
+  ViewStyle,
 } from 'react-native';
 import stylesheet from './stylesheet';
 
@@ -15,6 +17,7 @@ interface InputProps {
   value?: string;
   onChangeText?: (value: string) => void;
   onSubmitEnding?: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 const Input: FC<InputProps> = ({
@@ -25,9 +28,10 @@ const Input: FC<InputProps> = ({
   isSecure = false,
   returnKeyType = 'default',
   value = '',
+  style,
 }) => {
   return (
-    <View style={stylesheet.container}>
+    <View style={[stylesheet.container, style]}>
       <TextInput
         placeholder={placeholder}
         style={stylesheet.input}

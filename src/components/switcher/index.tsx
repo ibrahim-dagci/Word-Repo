@@ -31,6 +31,7 @@ const Switcher: FC<SwitcherProps> = ({
       <Switch
         trackColor={{true: '#81b0ff'}}
         onValueChange={toggleSwitch}
+        thumbColor={'white'}
         value={isEnabled}
       />
       <Text style={[stylesheet.text, {color: colors.pageBackground}]}>

@@ -1,10 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
-import stylesheet from './stylesheet';
-import {TabStackNavigationPropsLanguage} from '../../navigation/types';
 import {Button, ModalComponent, Switcher, Word} from '../../components';
+import {TabStackNavigationPropsLanguage} from '../../navigation/types';
+import React, {useContext, useEffect, useState} from 'react';
 import {EarthIcon, PenIcon} from '../../assets/svg';
+import {AddWordCard, ShowWordCard} from './cards';
+import {FlatList, View} from 'react-native';
 import {AppContext} from '../../context';
+import stylesheet from './stylesheet';
 
 const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
   const {values, dispatch} = useContext(AppContext);
@@ -12,7 +13,11 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
     theme: {colors},
   } = values;
   const [validSwitchState, setValidSwitchState] = useState<boolean>(false);
-  const [modalVisibility, setModalVisibility] = useState<boolean>(true);
+  const [wordModalVisibility, setWordModalVisibility] =
+    useState<boolean>(false);
+  const [addWordModalVisibility, setAddWordModalVisibility] =
+    useState<boolean>(false);
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -28,7 +33,7 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
           variant="custom"
           customContent={<PenIcon size={25} />}
           onPress={() => {
-            setModalVisibility(true);
+            setAddWordModalVisibility(true);
           }}
           style={{marginRight: 15}}
         />
@@ -47,30 +52,34 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
           />
         }
         renderItem={({item}) => {
-          return <Word text={item} />;
+          return (
+            <Word
+              text={item}
+              onPress={() => {
+                setWordModalVisibility(true);
+              }}
+            />
+          );
         }}
-        data={[
-          'word',
-          'of',
-          'warcraft',
-          'legend',
-          'never',
-          'scrum',
-          'hello',
-          'test',
-          'green',
-          'world',
-          'earth',
-        ]}
+        data={['word', 'of']}
         keyExtractor={item => item}
         horizontal={false}
         numColumns={2}
       />
       <ModalComponent
-        visibilityControl={[modalVisibility, setModalVisibility]}
+        visibilityControl={[wordModalVisibility, setWordModalVisibility]}
         animationType="fade"
         variant="card"
-      ></ModalComponent>
+      >
+        <ShowWordCard />
+      </ModalComponent>
+      <ModalComponent
+        visibilityControl={[addWordModalVisibility, setAddWordModalVisibility]}
+        animationType="fade"
+        variant="card"
+      >
+        <AddWordCard />
+      </ModalComponent>
     </View>
   );
 };
