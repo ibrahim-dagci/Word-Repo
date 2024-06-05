@@ -132,6 +132,7 @@ const Login = ({navigation}: RootStackNavigationProps) => {
           />
         </Animated.View>
         <ModalComponent
+          variant="bottom"
           visibilityControl={[modalVisible, setModalVisible]}
           color={colors.modal}
         >

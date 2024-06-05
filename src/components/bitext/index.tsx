@@ -5,22 +5,24 @@ import stylesheet from './stylesheet';
 interface BitextProps {
   leftText: string | string[];
   rightText: string;
+  containerStyle?: StyleProp<TextStyle>;
   leftStyle?: StyleProp<TextStyle>;
   rightStyle?: StyleProp<TextStyle>;
   onPress?: () => void;
 }
 
 const Bitext: FC<BitextProps> = ({
-  leftText = 'leftText',
   rightText = 'rightText',
-  leftStyle = {},
-  rightStyle = {},
+  leftText = 'leftText',
+  containerStyle = {},
   onPress = () => {},
+  rightStyle = {},
+  leftStyle = {},
 }) => {
   return (
-    <Pressable style={stylesheet.container} onPress={onPress}>
-      <Text style={[stylesheet.text, leftStyle]}>{leftText}</Text>
-      <Text style={[stylesheet.text, rightStyle]}>{rightText}</Text>
+    <Pressable style={[stylesheet.container, containerStyle]} onPress={onPress}>
+      <Text style={[stylesheet.left, leftStyle]}>{leftText}</Text>
+      <Text style={[stylesheet.right, rightStyle]}>{rightText}</Text>
     </Pressable>
   );
 };

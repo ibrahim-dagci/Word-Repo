@@ -2,18 +2,25 @@ import {Platform, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    padding: Platform.OS === 'android' ? 5 : 5,
+    padding: Platform.OS === 'android' ? 12 : 12,
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 15,
-    height: 48,
     margin: 5,
     gap: 5,
   },
-  text: {
+  left: {
+    fontWeight: 'bold',
+    flexWrap: 'wrap',
+    color: '#dadada',
+    fontSize: 18,
+  },
+  right: {
     fontWeight: 'bold',
     color: '#dadada',
     fontSize: 18,
+    flexWrap: 'wrap',
+    flex: 1,
   },
 });
