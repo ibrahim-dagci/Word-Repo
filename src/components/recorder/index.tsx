@@ -1,14 +1,24 @@
-import {Pressable, StyleProp, Text, View, ViewStyle} from 'react-native';
-import React, {FC, useContext, useState} from 'react';
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import {DeleteIcon, PauseIcon, PlayIcon} from '../../assets/svg';
+import React, {FC, useContext, useEffect, useState} from 'react';
 import {AppContext} from '../../context';
 import stylesheet from './stylesheet';
 import Button from '../button';
-import {DeleteIcon, PauseIcon, PlayIcon, ProfileIcon} from '../../assets/svg';
+import {
+  PermissionsAndroid,
+  Platform,
+  Pressable,
+  StyleProp,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 interface RecorderProps {
   style?: StyleProp<ViewStyle>;
 }
 type status = 'Record' | 'Recording...' | 'Recorded' | 'Playing...';
+const audioRecorderPlayer = new AudioRecorderPlayer();
 
 const Recorder: FC<RecorderProps> = ({style}) => {
   const {values} = useContext(AppContext);
@@ -18,12 +28,83 @@ const Recorder: FC<RecorderProps> = ({style}) => {
 
   const [status, setStatus] = useState<status>('Record');
   const [redStyle, setRedStyle] = useState<StyleProp<ViewStyle>>();
+  const [recording, setRecording] = useState(false);
+  const [recordedUri, setRecordedUri] = useState('');
+  const [playing, setPlaying] = useState(false);
 
-  const record = () => {
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      requestPermissions();
+    }
+  }, []);
+
+  const requestPermissions = async () => {
+    try {
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      ]);
+      if (
+        granted['android.permission.RECORD_AUDIO'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+        granted['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+        granted['android.permission.READ_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log('Permissions granted');
+      } else {
+        console.log('Permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const onStartRecord = async () => {
+    const result = await audioRecorderPlayer.startRecorder();
+    audioRecorderPlayer.addRecordBackListener(e => {
+      console.log('Recording', e);
+      return;
+    });
+    setRecordedUri(result);
+  };
+
+  const onStopRecord = async () => {
+    const result = await audioRecorderPlayer.stopRecorder();
+    audioRecorderPlayer.removeRecordBackListener();
+    setRecordedUri(result);
+  };
+
+  const onPlay = async () => {
+    await audioRecorderPlayer.startPlayer(recordedUri);
+    audioRecorderPlayer.addPlayBackListener(e => {
+      if (e.currentPosition === e.duration) {
+        audioRecorderPlayer.stopPlayer();
+        audioRecorderPlayer.removePlayBackListener();
+        setStatus('Recorded');
+      }
+      return;
+    });
+  };
+
+  const onStopPlay = async () => {
+    await audioRecorderPlayer.stopPlayer();
+    audioRecorderPlayer.removePlayBackListener();
+  };
+
+  const onDelete = () => {
+    setRecordedUri('');
+  };
+
+  const record = async () => {
     if (status === 'Record') {
+      await onStartRecord();
       setRedStyle({width: 30, height: 30, borderRadius: 5});
       setStatus('Recording...');
     } else if (status === 'Recording...') {
+      await onStopRecord();
       setRedStyle({width: 40, height: 40, borderRadius: 20});
       setStatus('Recorded');
     }
@@ -43,6 +124,7 @@ const Recorder: FC<RecorderProps> = ({style}) => {
           style={{position: 'absolute', top: 15, right: 15}}
           customContent={<DeleteIcon size={25} color="#E40202" />}
           onPress={() => {
+            onDelete();
             setStatus('Record');
           }}
         />
@@ -55,7 +137,8 @@ const Recorder: FC<RecorderProps> = ({style}) => {
           <Button
             variant="custom"
             customContent={<PlayIcon size={20} color={colors.gradient[2]} />}
-            onPress={() => {
+            onPress={async () => {
+              await onPlay();
               setStatus('Playing...');
             }}
             title="Play"
@@ -66,7 +149,8 @@ const Recorder: FC<RecorderProps> = ({style}) => {
             variant="custom"
             customContent={<PauseIcon size={20} color={colors.gradient[2]} />}
             title="Stop"
-            onPress={() => {
+            onPress={async () => {
+              await onStopPlay();
               setStatus('Recorded');
             }}
           />

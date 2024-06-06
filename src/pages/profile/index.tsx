@@ -68,6 +68,7 @@ const Profile = ({route, navigation}: AppStackNavigationPropsProfile) => {
             userLanguage.name ? userLanguage.name : ''
           }`}
           leftStyle={{fontSize: Platform.OS === 'android' ? 30 : 35}}
+          containerStyle={{padding: 5}}
         />
       </View>
       <View style={stylesheet.buttonContainer}>

@@ -64,6 +64,7 @@ const Select = () => {
                     Toast.show(`${e.name}:${e.message}`, Toast.LONG);
                   });
               }}
+              containerStyle={{padding: 5}}
             />
           );
         }}
