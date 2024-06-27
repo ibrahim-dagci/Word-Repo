@@ -29,7 +29,7 @@ export type AuthStackNavigationProps = NativeStackScreenProps<
 export type AppStackParamList = {
   Home: {user: any};
   Profile: {user: any};
-  Language: {user: any};
+  Language: {user: any; language: string};
 };
 
 export type AppStackNavigationPropsHome = NativeStackScreenProps<
@@ -48,8 +48,8 @@ export type AppStackNavigationPropsLanguage = NativeStackScreenProps<
 
 //------------------------------------------------------------
 export type TabStackParamList = {
-  Words: {user: any};
-  Chat: undefined;
+  Words: {user: any; language: string};
+  Chat: {user: any; language: string};
 };
 
 export type TabStackNavigationPropsLanguage = NativeStackScreenProps<

@@ -1,13 +1,13 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {AppContext} from '../../context';
-import {TabStackParamList} from '../types';
+import {AppStackNavigationPropsLanguage, TabStackParamList} from '../types';
 import {Chat, Words} from '../../pages';
 import {useContext} from 'react';
 import {ChatIcon, CloudIcon} from '../../assets/svg';
 
 const LanguageStack = createBottomTabNavigator<TabStackParamList>();
 
-const BottomTabs = () => {
+const BottomTabs = ({route, navigation}: AppStackNavigationPropsLanguage) => {
   const {values} = useContext(AppContext);
   const {theme} = values;
   return (
@@ -15,6 +15,10 @@ const BottomTabs = () => {
       <LanguageStack.Screen
         name="Words"
         component={Words}
+        initialParams={{
+          user: route.params.user,
+          language: route.params.language,
+        }}
         options={{
           headerStyle: {backgroundColor: theme.colors.header},
           headerTitleAlign: 'center',
@@ -31,6 +35,10 @@ const BottomTabs = () => {
       <LanguageStack.Screen
         name="Chat"
         component={Chat}
+        initialParams={{
+          user: route.params.user,
+          language: route.params.language,
+        }}
         options={{
           headerStyle: {backgroundColor: theme.colors.header},
           headerTitleAlign: 'center',

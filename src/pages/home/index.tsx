@@ -51,6 +51,7 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
         dispatch({type: 'UPDATE_LOADING', payload: false});
       });
   };
+  const {user} = route.params;
 
   return (
     <View
@@ -65,7 +66,10 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
                 uri: `${SERVRER_ADRESS}/${item.imgUrl}`,
               }}
               onPress={() => {
-                navigation.navigate('Language', {user: route.params.user});
+                navigation.navigate('Language', {
+                  user,
+                  language: item.symbol,
+                });
               }}
             />
           );
@@ -86,6 +90,7 @@ const Home = ({route, navigation}: AppStackNavigationPropsHome) => {
         }}
       />
       <ModalComponent
+        variant="bottom"
         visibilityControl={[modalVisibility, setModalVisibility]}
         color={colors.modal}
       >

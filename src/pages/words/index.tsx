@@ -3,20 +3,32 @@ import {TabStackNavigationPropsLanguage} from '../../navigation/types';
 import React, {useContext, useEffect, useState} from 'react';
 import {EarthIcon, PenIcon} from '../../assets/svg';
 import {AddWordCard, ShowWordCard} from './cards';
+import Toast from 'react-native-simple-toast';
 import {FlatList, View} from 'react-native';
 import {AppContext} from '../../context';
 import stylesheet from './stylesheet';
+import {UserWordService} from '../../service/webservice';
 
 const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
   const {values, dispatch} = useContext(AppContext);
   const {
     theme: {colors},
   } = values;
+  const [primaryLanguage] = useState(route.params.user.user.primaryLanguage);
+  const [currentLanguage] = useState(route.params.language);
   const [validSwitchState, setValidSwitchState] = useState<boolean>(false);
   const [wordModalVisibility, setWordModalVisibility] =
     useState<boolean>(false);
   const [addWordModalVisibility, setAddWordModalVisibility] =
     useState<boolean>(false);
+  const [listData, setListData] = useState<any[]>([]);
+  const [lan1isCurrent, setLan1isCurent] = useState<boolean>(true);
+  const [pressedWordData, setPressedWordData] = useState<any>({});
+
+  useEffect(() => {
+    getListData();
+    isCurrentLanguageLan1();
+  }, [addWordModalVisibility]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -41,6 +53,26 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
     });
   }, []);
 
+  const getListData = () => {
+    dispatch({type: 'UPDATE_LOADING', payload: true});
+    new UserWordService()
+      .getUserWords(route.params.user.token, primaryLanguage, currentLanguage)
+      .then(res => {
+        setListData(res);
+        dispatch({type: 'UPDATE_LOADING', payload: false});
+      })
+      .catch(e => {
+        Toast.show(`${e.name}: ${e.message}`, Toast.LONG);
+        dispatch({type: 'UPDATE_LOADING', payload: false});
+      });
+  };
+
+  const isCurrentLanguageLan1 = () => {
+    primaryLanguage.localeCompare(currentLanguage) > 0
+      ? setLan1isCurent(true)
+      : setLan1isCurent(false);
+  };
+
   return (
     <View
       style={[stylesheet.container, {backgroundColor: colors.pageBackground}]}
@@ -49,20 +81,34 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
         ListHeaderComponent={
           <Switcher
             switchStateArray={[validSwitchState, setValidSwitchState]}
+            leftText={currentLanguage}
+            rightText={primaryLanguage}
           />
         }
         renderItem={({item}) => {
+          let key = lan1isCurrent ? 'lan1' : 'lan2';
+          const currentKey = key;
+          const primaryKey = lan1isCurrent ? 'lan2' : 'lan1';
+          if (validSwitchState) {
+            key = key === 'lan1' ? 'lan2' : 'lan1';
+          }
           return (
             <Word
-              text={item}
+              text={item.meanId[key].word}
               onPress={() => {
                 setWordModalVisibility(true);
+                setPressedWordData({
+                  word: item.meanId[currentKey].word,
+                  mean: item.meanId[primaryKey].word,
+                  voice: item.voice,
+                  token: route.params.user.token,
+                });
               }}
             />
           );
         }}
-        data={['word', 'of']}
-        keyExtractor={item => item}
+        data={listData}
+        keyExtractor={item => item._id}
         horizontal={false}
         numColumns={2}
       />
@@ -71,14 +117,18 @@ const Words = ({route, navigation}: TabStackNavigationPropsLanguage) => {
         animationType="fade"
         variant="card"
       >
-        <ShowWordCard />
+        <ShowWordCard data={pressedWordData} />
       </ModalComponent>
       <ModalComponent
         visibilityControl={[addWordModalVisibility, setAddWordModalVisibility]}
         animationType="fade"
         variant="card"
       >
-        <AddWordCard />
+        <AddWordCard
+          primaryLanguage={primaryLanguage}
+          currentLanguage={currentLanguage}
+          user={route.params.user}
+        />
       </ModalComponent>
     </View>
   );

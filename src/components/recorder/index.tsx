@@ -1,6 +1,7 @@
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import {DeleteIcon, PauseIcon, PlayIcon} from '../../assets/svg';
 import React, {FC, useContext, useEffect, useState} from 'react';
+import Toast from 'react-native-simple-toast';
 import {AppContext} from '../../context';
 import stylesheet from './stylesheet';
 import Button from '../button';
@@ -16,11 +17,12 @@ import {
 
 interface RecorderProps {
   style?: StyleProp<ViewStyle>;
+  onRecordingComplete?: (uri: string) => void;
 }
 type status = 'Record' | 'Recording...' | 'Recorded' | 'Playing...';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-const Recorder: FC<RecorderProps> = ({style}) => {
+const Recorder: FC<RecorderProps> = ({style, onRecordingComplete}) => {
   const {values} = useContext(AppContext);
   const {
     theme: {colors},
@@ -53,19 +55,17 @@ const Recorder: FC<RecorderProps> = ({style}) => {
         granted['android.permission.READ_EXTERNAL_STORAGE'] ===
           PermissionsAndroid.RESULTS.GRANTED
       ) {
-        console.log('Permissions granted');
       } else {
-        console.log('Permission denied');
+        Toast.show('You need to allow microphone', Toast.SHORT);
       }
     } catch (err) {
-      console.warn(err);
+      Toast.show(`Error:${err}`, Toast.SHORT);
     }
   };
 
   const onStartRecord = async () => {
     const result = await audioRecorderPlayer.startRecorder();
     audioRecorderPlayer.addRecordBackListener(e => {
-      console.log('Recording', e);
       return;
     });
     setRecordedUri(result);
@@ -75,6 +75,9 @@ const Recorder: FC<RecorderProps> = ({style}) => {
     const result = await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
     setRecordedUri(result);
+    if (onRecordingComplete) {
+      onRecordingComplete(result);
+    }
   };
 
   const onPlay = async () => {
@@ -96,6 +99,9 @@ const Recorder: FC<RecorderProps> = ({style}) => {
 
   const onDelete = () => {
     setRecordedUri('');
+    if (onRecordingComplete) {
+      onRecordingComplete('');
+    }
   };
 
   const record = async () => {

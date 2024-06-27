@@ -9,3 +9,4 @@ export {default as SaveIcon} from './save';
 export {default as DeleteIcon} from './delete';
 export {default as PauseIcon} from './pause';
 export {default as PlayIcon} from './play';
+export {default as SpeakerIcon} from './speaker';
