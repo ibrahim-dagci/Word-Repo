@@ -1,13 +1,15 @@
-import {FC} from 'react';
-import {
-  KeyboardTypeOptions,
-  ReturnKeyTypeOptions,
-  StyleProp,
-  TextInput,
-  View,
-  ViewStyle,
-} from 'react-native';
 import stylesheet from './stylesheet';
+import {
+    FC
+} from 'react';
+import {
+    KeyboardTypeOptions,
+    ReturnKeyTypeOptions,
+    StyleProp,
+    TextInput,
+    ViewStyle,
+    View,
+} from 'react-native';
 
 interface InputProps {
   placeholder?: string;
@@ -21,30 +23,30 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = ({
-  placeholder,
-  onChangeText = () => {},
-  onSubmitEnding,
-  keyboard = 'default',
-  isSecure = false,
-  returnKeyType = 'default',
-  value = '',
-  style,
+    placeholder,
+    onChangeText = () => {},
+    onSubmitEnding,
+    keyboard = 'default',
+    isSecure = false,
+    returnKeyType = 'default',
+    value = '',
+    style,
 }) => {
-  return (
-    <View style={[stylesheet.container, style]}>
-      <TextInput
-        placeholder={placeholder}
-        style={stylesheet.input}
-        placeholderTextColor={'#dadada'}
-        keyboardType={keyboard}
-        secureTextEntry={isSecure}
-        onChangeText={onChangeText}
-        value={value}
-        returnKeyType={returnKeyType}
-        onSubmitEditing={onSubmitEnding}
-      />
-    </View>
-  );
+    return (
+        <View style={[stylesheet.container, style]}>
+            <TextInput
+                placeholder={placeholder}
+                style={stylesheet.input}
+                placeholderTextColor={'#dadada'}
+                keyboardType={keyboard}
+                secureTextEntry={isSecure}
+                onChangeText={onChangeText}
+                value={value}
+                returnKeyType={returnKeyType}
+                onSubmitEditing={onSubmitEnding}
+            />
+        </View>
+    );
 };
 
 export default Input;

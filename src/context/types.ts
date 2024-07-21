@@ -1,4 +1,6 @@
-import {Variant} from '../themes/types';
+import {
+    Variant
+} from '../themes/types';
 
 export type GlobalValues = {
   theme: Variant;

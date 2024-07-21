@@ -96,8 +96,5 @@ DEPENDENCIES
   activesupport (>= 6.1.7.5, < 7.1.0)
   cocoapods (>= 1.13, < 1.15)
 
-RUBY VERSION
-   ruby 2.7.6p219
-
 BUNDLED WITH
    2.1.4

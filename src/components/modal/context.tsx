@@ -1,5 +1,11 @@
-import {useColorScheme} from 'react-native';
-import {createContext, useEffect, useState} from 'react';
+import {
+    useColorScheme
+} from 'react-native';
+import {
+    createContext, 
+    useEffect, 
+    useState
+} from 'react';
 type ModalValueType = {
   modalVisibilityControl?: [
     boolean,
@@ -7,27 +13,37 @@ type ModalValueType = {
   ];
 };
 
-const modalValues: ModalValueType = {};
+const modalValues: ModalValueType = {
+};
 
 const ModalContext = createContext<ModalValueType>(modalValues);
 
 const ModalPrvider: React.FC<{
   children: React.ReactNode;
   visibilityControl: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-}> = ({children, visibilityControl}) => {
-  const [values, setValues] = useState<ModalValueType>(modalValues);
-  const updateValues = (updatedValue: Partial<ModalValueType>) => {
-    setValues(prevState => ({...prevState, ...updatedValue}));
-  };
+}> = ({
+    children, visibilityControl
+}) => {
+    const [values, setValues] = useState<ModalValueType>(modalValues);
+    const updateValues = (updatedValue: Partial<ModalValueType>) => {
+        setValues(prevState => ({
+            ...prevState, ...updatedValue
+        }));
+    };
 
-  useEffect(() => {
-    const temp = {modalVisibilityControl: visibilityControl};
-    updateValues(temp);
-  }, [visibilityControl]);
+    useEffect(() => {
+        const temp = {
+            modalVisibilityControl: visibilityControl
+        };
+        updateValues(temp);
+    }, [visibilityControl]);
 
-  return (
-    <ModalContext.Provider value={values}>{children}</ModalContext.Provider>
-  );
+    return (
+        <ModalContext.Provider value={values}>{children}</ModalContext.Provider>
+    );
 };
 
-export {ModalContext, ModalPrvider};
+export {
+    ModalContext, 
+    ModalPrvider
+};

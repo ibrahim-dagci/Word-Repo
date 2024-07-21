@@ -1,6 +1,14 @@
-import {FC} from 'react';
-import {Pressable, StyleProp, Text, TextStyle, View} from 'react-native';
 import stylesheet from './stylesheet';
+import {
+    FC
+} from 'react';
+import {
+    Pressable, 
+    StyleProp, 
+    TextStyle, 
+    Text, 
+    View
+} from 'react-native';
 
 interface BitextProps {
   leftText: string | string[];
@@ -12,19 +20,22 @@ interface BitextProps {
 }
 
 const Bitext: FC<BitextProps> = ({
-  rightText = 'rightText',
-  leftText = 'leftText',
-  containerStyle = {},
-  onPress = () => {},
-  rightStyle = {},
-  leftStyle = {},
+    rightText = 'rightText',
+    leftText = 'leftText',
+    containerStyle = {
+    },
+    onPress = () => {},
+    rightStyle = {
+    },
+    leftStyle = {
+    },
 }) => {
-  return (
-    <Pressable style={[stylesheet.container, containerStyle]} onPress={onPress}>
-      <Text style={[stylesheet.left, leftStyle]}>{leftText}</Text>
-      <Text style={[stylesheet.right, rightStyle]}>{rightText}</Text>
-    </Pressable>
-  );
+    return (
+        <Pressable style={[stylesheet.container, containerStyle]} onPress={onPress}>
+            <Text style={[stylesheet.left, leftStyle]}>{leftText}</Text>
+            <Text style={[stylesheet.right, rightStyle]}>{rightText}</Text>
+        </Pressable>
+    );
 };
 
 export default Bitext;

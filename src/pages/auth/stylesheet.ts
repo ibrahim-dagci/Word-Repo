@@ -1,25 +1,27 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {
+    Dimensions, StyleSheet
+} from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-  },
-  signin: {
-    paddingTop: 10,
-    paddingBottom: 50,
-  },
-  signup: {
-    paddingTop: 10,
-    paddingBottom: 50,
-    height: Dimensions.get('window').height / 2.1,
-  },
-  forgot: {
-    paddingTop: 10,
-    paddingBottom: 50,
-  },
-  mainButtonContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
+    container: {
+        width: '100%',
+        flex: 1,
+    },
+    signin: {
+        paddingBottom: 50,
+        paddingTop: 10,
+    },
+    signup: {
+        height: Dimensions.get('window').height / 2.1,
+        paddingBottom: 50,
+        paddingTop: 10,
+    },
+    forgot: {
+        paddingBottom: 50,
+        paddingTop: 10,
+    },
+    mainButtonContainer: {
+        justifyContent: 'space-between',
+        flex: 1,
+    },
 });

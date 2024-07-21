@@ -1,14 +1,16 @@
-import {StyleSheet} from 'react-native';
+import {
+    StyleSheet
+} from 'react-native';
 
 export default StyleSheet.create({
-  linearGradient: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    linearGradient: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+    },
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+    },
 });

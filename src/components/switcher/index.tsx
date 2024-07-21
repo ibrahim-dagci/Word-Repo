@@ -1,7 +1,16 @@
-import React, {FC, useContext, useState} from 'react';
-import {Switch, Text, View} from 'react-native';
 import stylesheet from './stylesheet';
-import {AppContext} from '../../context';
+import {
+    useContext,
+    FC, 
+} from 'react';
+import {
+    Switch, 
+    Text, 
+    View
+} from 'react-native';
+import {
+    AppContext
+} from '../../context';
 
 interface SwitcherProps {
   rightText?: string;
@@ -10,35 +19,43 @@ interface SwitcherProps {
 }
 
 const Switcher: FC<SwitcherProps> = ({
-  leftText = 'leftText',
-  rightText = 'rightText',
-  switchStateArray,
+    leftText = 'leftText',
+    rightText = 'rightText',
+    switchStateArray,
 }) => {
-  const {
-    values: {
-      theme: {colors},
-    },
-  } = useContext(AppContext);
+    const {
+        values: {
+            theme: {
+                colors
+            },
+        },
+    } = useContext(AppContext);
 
-  const [isEnabled, setIsEnabled] = switchStateArray;
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [isEnabled, setIsEnabled] = switchStateArray;
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  return (
-    <View style={[stylesheet.container]}>
-      <Text style={[stylesheet.text, {color: colors.pageBackground}]}>
-        {leftText}
-      </Text>
-      <Switch
-        trackColor={{true: '#81b0ff'}}
-        onValueChange={toggleSwitch}
-        thumbColor={'white'}
-        value={isEnabled}
-      />
-      <Text style={[stylesheet.text, {color: colors.pageBackground}]}>
-        {rightText}
-      </Text>
-    </View>
-  );
+    return (
+        <View style={[stylesheet.container]}>
+            <Text style={[stylesheet.text, {
+                color: colors.pageBackground
+            }]}>
+                {leftText}
+            </Text>
+            <Switch
+                trackColor={{
+                    true: '#81b0ff'
+                }}
+                onValueChange={toggleSwitch}
+                thumbColor={'white'}
+                value={isEnabled}
+            />
+            <Text style={[stylesheet.text, {
+                color: colors.pageBackground
+            }]}>
+                {rightText}
+            </Text>
+        </View>
+    );
 };
 
 export default Switcher;

@@ -1,12 +1,22 @@
 import themes from '../themes';
-import {GlobalValues} from './types';
-import {ActivityIndicator, View, useColorScheme} from 'react-native';
-import React, {createContext, useEffect, useReducer} from 'react';
+import {
+    GlobalValues
+} from './types';
+import {
+    ActivityIndicator, 
+    useColorScheme,
+    View, 
+} from 'react-native';
+import {
+    createContext, 
+    useReducer,
+    useEffect, 
+} from 'react';
 
 const globalValues: GlobalValues = {
-  theme: themes.dark,
-  isAuth: true,
-  loading: false,
+    theme: themes.dark,
+    loading: false,
+    isAuth: true,
 };
 type actionTypes = {
   type: 'UPDATE_THEME' | 'UPDATE_IS_AUTH' | 'UPDATE_LOADING';
@@ -17,52 +27,64 @@ type contexDefaultValueTypes = {
   dispatch: React.Dispatch<actionTypes>;
 };
 const contexDefaultValues = {
-  values: globalValues,
-  dispatch: () => null,
+    values: globalValues,
+    dispatch: () => null,
 };
 
 const globalReducer = (state: GlobalValues, action: actionTypes) => {
-  switch (action.type) {
+    switch (action.type) {
     case 'UPDATE_THEME':
-      return {...state, theme: action.payload};
+        return {
+            ...state, theme: action.payload
+        };
     case 'UPDATE_IS_AUTH':
-      return {...state, isAuth: action.payload};
+        return {
+            ...state, isAuth: action.payload
+        };
     case 'UPDATE_LOADING':
-      return {...state, loading: action.payload};
+        return {
+            ...state, loading: action.payload
+        };
     default:
-      return state;
-  }
+        return state;
+    }
 };
 const AppContext = createContext<contexDefaultValueTypes>(contexDefaultValues);
 
-const AppProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
-  const colorScheme = useColorScheme();
+const AppProvider: React.FC<{children: React.ReactNode}> = ({
+    children
+}) => {
+    const colorScheme = useColorScheme();
 
-  const [values, dispatch] = useReducer(globalReducer, globalValues);
+    const [values, dispatch] = useReducer(globalReducer, globalValues);
 
-  useEffect(() => {
-    const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  }, [colorScheme]);
+    useEffect(() => {
+        const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+    }, [colorScheme]);
 
-  return (
-    <AppContext.Provider value={{values, dispatch}}>
-      {children}
-      {values.loading && (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            height: '100%',
-            width: '100%',
-            zIndex: 100,
-          }}
-        >
-          <ActivityIndicator size={'large'} color={'gray'} />
-        </View>
-      )}
-    </AppContext.Provider>
-  );
+    return (
+        <AppContext.Provider value={{
+            values, dispatch
+        }}>
+            {children}
+            {values.loading && (
+                <View
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        height: '100%',
+                        width: '100%',
+                        zIndex: 100,
+                    }}
+                >
+                    <ActivityIndicator size={'large'} color={'gray'} />
+                </View>
+            )}
+        </AppContext.Provider>
+    );
 };
 
-export {AppContext, AppProvider};
+export {
+    AppContext, AppProvider
+};
