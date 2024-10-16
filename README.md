@@ -1,6 +1,6 @@
 # Word Repo
 
-![image](./public/assets/images/header.png)
+![image](./src/assets/image/header.png)
 
 ## Hakkında
 Bu proje  kullanıcıların dil öğrenme yolculuğunda  kelime hazinelerini artırmaya ve telafuz  pratiğini yapabilmelerine yardımcı olmak için geliştirilmekte olan bir projedir.
@@ -17,7 +17,10 @@ Bu proje  kullanıcıların dil öğrenme yolculuğunda  kelime hazinelerini art
 - **Veri Tabanı:** MongoDB
 
 <p align="center">
-  <img src="./public/assets/images/sign.png" alt="Resim 1" width="200" />
-  <img src="./public/assets/images/my_languages.png" alt="Resim 2" width="200" />
+  <img src="./src/assets/image/sign.png" alt="Resim 1" width="200" />
+  <img src="./src/assets/image/my_languages.png" alt="Resim 2" width="200" />
+  <img src="./src/assets/image/add_language.png" alt="Resim 2" width="200" />
+  <img src="./src/assets/image/words.png" alt="Resim 2" width="200" />
+  <img src="./src/assets/image/add_word.png" alt="Resim 2" width="200" />
 </p>
 
