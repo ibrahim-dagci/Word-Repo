@@ -116,7 +116,7 @@ const Login = ({
                 })
                 .catch((e: Error) => {
                     Toast.show(
-                        `Your session has expired please log in again ${e.message}`,
+                        `Your session has expired please log in again`,
                         Toast.LONG,
                     );
                     storage.set('user', '');

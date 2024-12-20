@@ -1,3 +1,4 @@
+import Toast from 'react-native-simple-toast';
 import stylesheet from './stylesheet';
 import {
     ModalContext
@@ -13,7 +14,8 @@ import {
 import  {
     useContext, 
     useState,
-    FC, 
+    FC,
+    useEffect, 
 } from 'react';
 import {
     SaveIcon
@@ -35,7 +37,8 @@ const Card: FC<AddCardProps> = ({
     primaryLanguage, currentLanguage, user
 }) => {
     const {
-        values
+        values,
+        dispatch
     } = useContext(AppContext);
     const {
         theme: {
@@ -45,6 +48,7 @@ const Card: FC<AddCardProps> = ({
     const [recordedUri, setRecordedUri] = useState('');
     const [word, setWord] = useState('');
     const [mean, setMean] = useState('');
+    const [saveButtonLoading, setSaveButtonLoading] = useState(false);
     const {
         modalVisibilityControl
     } = useContext(ModalContext);
@@ -54,6 +58,11 @@ const Card: FC<AddCardProps> = ({
         <View style={stylesheet.container}>
             <Button
                 onPress={() => {
+                    if (word === "" || mean === "" || recordedUri === ""){
+                        Toast.show(`Please fill in the required fields.`, Toast.SHORT);
+                        return null;
+                    }
+                    setSaveButtonLoading(true);
                     const token = user.token;
                     new UserWordService()
                         .createUserWord(token, recordedUri, {
@@ -63,10 +72,12 @@ const Card: FC<AddCardProps> = ({
                             mean,
                         })
                         .then(() => {
+                            setSaveButtonLoading(false);
                             setModalVisibility?.(false);
                         })
                         .catch(e => {
-                            console.log(e);
+                            setSaveButtonLoading(false);
+                            Toast.show(`${e.name}:${e.message}`, Toast.SHORT);
                         });
                 }}
                 variant="custom"
@@ -74,13 +85,15 @@ const Card: FC<AddCardProps> = ({
                     position: 'absolute', right: 15, top: 15
                 }}
                 customContent={<SaveIcon size={25} color={colors.gradient[2]} />}
+                loading = {saveButtonLoading}
             />
             <View style={stylesheet.inputContainer}>
                 <Input
                     onChangeText={value => setWord(value)}
                     placeholder="*Word"
                     style={{
-                        borderColor: colors.gradient[2], borderWidth: 1
+                        borderColor: colors.gradient[2], 
+                        borderWidth: 1
                     }}
                     keyboard="default"
                     value={word}
@@ -89,7 +102,8 @@ const Card: FC<AddCardProps> = ({
                     onChangeText={value => setMean(value)}
                     placeholder="*Mean"
                     style={{
-                        borderColor: colors.gradient[2], borderWidth: 1
+                        borderColor: colors.gradient[2], 
+                        borderWidth: 1
                     }}
                     keyboard="default"
                     value={mean}

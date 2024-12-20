@@ -43,12 +43,15 @@ export default class UserWordService {
     },
     ): Promise<any> {
         const fileUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-        const formData = new FormData();
-        formData.append('audio', {
+        const uriParts = uri.split('.');
+        const fileType = uriParts[uriParts.length - 1];
+        const formData: any = new FormData();
+        const audioFile: any = {
             uri: fileUri,
-            name: 'audio.mp4',
-            type: 'audio/mp4',
-        });
+            name: `audio.${fileType}`,
+            type: `audio/x-${fileType}`,
+        };
+        formData.append('audio', audioFile);
         formData.append('wordData', JSON.stringify(wordData));
         const response = await fetch(`${this.baseUrl}/api/user_words/create`, {
             method: 'POST',

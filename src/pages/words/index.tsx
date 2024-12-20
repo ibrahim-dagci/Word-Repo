@@ -60,8 +60,10 @@ const Words = ({
     });
 
     useEffect(() => {
-        getListData();
-        isCurrentLanguageLan1();
+        if(addWordModalVisibility === false){
+            getListData();
+            isCurrentLanguageLan1();
+        }
     }, [addWordModalVisibility]);
 
     useEffect(() => {
@@ -90,6 +92,10 @@ const Words = ({
             ),
         });
     }, []);
+
+    useEffect(()=>{
+        console.log("rerendered");
+    },[]);
 
     const getListData = () => {
         dispatch({
