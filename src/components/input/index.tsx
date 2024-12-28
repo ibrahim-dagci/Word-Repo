@@ -3,8 +3,10 @@ import {
     FC
 } from 'react';
 import {
-    KeyboardTypeOptions,
+    TextInputEndEditingEventData,
+    NativeSyntheticEvent,
     ReturnKeyTypeOptions,
+    KeyboardTypeOptions,
     StyleProp,
     TextInput,
     ViewStyle,
@@ -12,20 +14,22 @@ import {
 } from 'react-native';
 
 interface InputProps {
-  placeholder?: string;
-  keyboard?: KeyboardTypeOptions;
-  returnKeyType?: ReturnKeyTypeOptions;
-  isSecure?: boolean;
-  value?: string;
-  onChangeText?: (value: string) => void;
-  onSubmitEnding?: () => void;
-  style?: StyleProp<ViewStyle>;
+    onEndEditing?: (event: NativeSyntheticEvent<TextInputEndEditingEventData>) => void;
+    onChangeText?: (value: string) => void;
+    returnKeyType?: ReturnKeyTypeOptions;
+    keyboard?: KeyboardTypeOptions;
+    style?: StyleProp<ViewStyle>;
+    onSubmitEnding?: () => void;
+    placeholder?: string;
+    isSecure?: boolean;
+    value?: string;
 }
 
 const Input: FC<InputProps> = ({
     placeholder,
     onChangeText = () => {},
     onSubmitEnding,
+    onEndEditing,
     keyboard = 'default',
     isSecure = false,
     returnKeyType = 'default',
@@ -44,6 +48,7 @@ const Input: FC<InputProps> = ({
                 value={value}
                 returnKeyType={returnKeyType}
                 onSubmitEditing={onSubmitEnding}
+                onEndEditing={onEndEditing}
             />
         </View>
     );

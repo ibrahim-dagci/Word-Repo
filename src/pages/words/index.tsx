@@ -93,10 +93,6 @@ const Words = ({
         });
     }, []);
 
-    useEffect(()=>{
-        console.log("rerendered");
-    },[]);
-
     const getListData = () => {
         dispatch({
             type: 'UPDATE_LOADING', payload: true

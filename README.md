@@ -13,7 +13,7 @@ Bu proje  kullanıcıların dil öğrenme yolculuğunda  kelime hazinelerini art
 
 ## Kullanılan Teknolojiler
 - **Frontend:** React Native
-- **Backend:** Node.js, Express.js
+- **Backend:** Node.js, Express.js [Daha fazlası için tıklayınız.](https://github.com/ibrahim-dagci/Word-Repo)
 - **Veri Tabanı:** MongoDB
 
 <p align="center">

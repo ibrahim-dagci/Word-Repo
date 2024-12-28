@@ -10,3 +10,6 @@ export {
 export {
     default as UserWordService
 } from './user_word';
+export {
+    default as DictionaryService
+} from './dictionary';
