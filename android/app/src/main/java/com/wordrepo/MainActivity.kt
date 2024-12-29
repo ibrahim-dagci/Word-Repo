@@ -1,6 +1,7 @@
 package com.wordrepo
 
 import android.os.Bundle;
+import org.devio.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
@@ -13,9 +14,9 @@ class MainActivity : ReactActivity() {
    * rendering of the component.
    */
   override fun getMainComponentName(): String = "wordrepo"
-
   override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(null)
+    SplashScreen.show(this)  // here
+    super.onCreate(savedInstanceState)
   }
 
   /**
