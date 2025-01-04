@@ -10,10 +10,13 @@ export default class DictionaryService {
         this.baseUrl = SERVRER_ADRESS;
     }
 
-    async getPronunciation(word:string): Promise<any> {
-        const response = await axios.get(`${this.baseUrl}/api/dictionary/pronunciations/${word}`);
+    async getWordData(token:string,word:string, currentLanguage:string, primarylanguage:string): Promise<any> {
+        const response = await axios.get(`${this.baseUrl}/api/dictionary/${word}/${currentLanguage}/${primarylanguage}`,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         if (response.status != 200) throw Error(response.data.message);
-
         return response.data;
     }
 }

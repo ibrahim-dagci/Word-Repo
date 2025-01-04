@@ -56,7 +56,9 @@ const Card: FC<AddCardProps> = ({
     const [word, setWord] = useState('');
     const [mean, setMean] = useState('');
     const [saveButtonLoading, setSaveButtonLoading] = useState(false);
-    const [sounds,setSounds] = useState([]);
+    const [wordData,setWordData] = useState<{mean:string,voices:string[]}>({
+        mean:"",voices:[]
+    });
     const {
         modalVisibilityControl
     } = useContext(ModalContext);
@@ -115,11 +117,10 @@ const Card: FC<AddCardProps> = ({
     };
 
     const fetchPronunciations = (event: NativeSyntheticEvent<TextInputEndEditingEventData>)=> {
-        new DictionaryService().getPronunciation(event.nativeEvent.text)
+        new DictionaryService().getWordData(user.token,event.nativeEvent.text,currentLanguage,primaryLanguage)
             .then((res)=>{
-                setSounds(res.voices);
-            }).catch((err)=>{
-                setSounds([]);
+                setWordData(res.data);
+            }).catch(()=>{
             });
     };
 
@@ -135,7 +136,7 @@ const Card: FC<AddCardProps> = ({
                 loading = {saveButtonLoading}
             />
             <View style={stylesheet.soundsContainer}>
-                {sounds.map((value:string ,index)=>{
+                {wordData.voices.map((value:string ,index)=>{
                     return <Button 
                         key={index}
                         onPress={()=>{
@@ -156,6 +157,7 @@ const Card: FC<AddCardProps> = ({
                         style={{
                             marginRight:10
                         }}
+                        loading = {isPlaying}
                     />;
                 })}
             </View>
@@ -173,7 +175,7 @@ const Card: FC<AddCardProps> = ({
                 />
                 <Input
                     onChangeText={value => setMean(value)}
-                    placeholder="*Mean"
+                    placeholder={`*Mean-${primaryLanguage}: ${wordData.mean}`}
                     style={{
                         borderColor: colors.gradient[2], 
                         borderWidth: 1
