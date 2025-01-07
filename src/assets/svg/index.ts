@@ -34,3 +34,12 @@ export {
 export {
     default as SpeakerIcon
 } from './speaker';
+export {
+    default as SendIcon
+} from './send';
+export {
+    default as CheckdIcon
+} from './check';
+export {
+    default as ClockIcon
+} from './clock';

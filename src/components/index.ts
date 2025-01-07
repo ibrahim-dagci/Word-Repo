@@ -25,3 +25,6 @@ export {
 export {
     default as Word
 } from './word';
+export {
+    default as ChatComponent
+} from './chat';
